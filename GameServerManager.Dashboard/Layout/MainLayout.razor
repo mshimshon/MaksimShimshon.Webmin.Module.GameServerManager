@@ -1,0 +1,24 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider IsDarkMode=true/>
+<MudPopoverProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<MudLayout >
+    <MudAppBar>
+        My Application
+    </MudAppBar>
+    <MudDrawer Open="true" >
+        <MudNavMenu>
+            <MudNavLink Icon=@Icons.Material.Filled.MonitorHeart Href="/" Match="NavLinkMatch.All">Control</MudNavLink>
+            <MudNavLink Icon=@Icons.Material.Filled.Settings Href="/" Match="NavLinkMatch.All">Mods</MudNavLink>
+            <MudNavLink Icon=@Icons.Material.Filled.Backup Href="/" Match="NavLinkMatch.All">Backups</MudNavLink>
+            <MudNavLink Icon=@Icons.Material.Filled.Backup Href="/" Match="NavLinkMatch.All">Backups</MudNavLink>
+            <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>

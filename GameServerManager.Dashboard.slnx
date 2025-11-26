@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GameServerManager.Dashboard/GameServerManager.Dashboard.Client/GameServerManager.Dashboard.Client.csproj" />
+  <Project Path="GameServerManager.Dashboard/GameServerManager.Dashboard/GameServerManager.Dashboard.csproj" />
+</Solution>
