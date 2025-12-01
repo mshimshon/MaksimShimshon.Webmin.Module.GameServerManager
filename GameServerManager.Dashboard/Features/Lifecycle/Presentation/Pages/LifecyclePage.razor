@@ -1,6 +1,8 @@
 ﻿@page "/"
-<h3>LifecyclePage</h3>
-
-@code {
-
-}
+@page "/lifecycle"
+<MudGrid>
+    <MudItem>
+        <MudFab Color="Color.Error" StartIcon="@Icons.Material.Filled.Stop" DropShadow="false" Size=@Size.Small OnClick=@(()=> Console.WriteLine("OK")) />
+        <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.PlayArrow" DropShadow="false" />
+    </MudItem>
+</MudGrid>

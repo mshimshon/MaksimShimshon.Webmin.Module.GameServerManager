@@ -1,0 +1,5 @@
+desc=Game Server Manager
+category=servers
+version=1.0
+os_support=*-linux
+longdesc=LinuxGSM-based game server management

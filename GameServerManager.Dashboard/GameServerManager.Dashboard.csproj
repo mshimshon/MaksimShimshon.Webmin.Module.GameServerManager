@@ -1,16 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
+    <Version>0.1.0</Version>
+	  <UseWebAssemblyDevServer>false</UseWebAssemblyDevServer>
+	  <BlazorCacheBootResources>false</BlazorCacheBootResources>
+
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CoreMap" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
     <PackageReference Include="MudBlazor" Version="8.15.0" />
+    <PackageReference Include="StatePulse.Net" Version="1.1.0" />
+    <PackageReference Include="SwizzleV" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,13 +28,86 @@
     <Folder Include="Features\Lifecycle\Domain\" />
     <Folder Include="Features\Lifecycle\Infrastruture\" />
     <Folder Include="Features\Lifecycle\Presentation\Components\" />
-    <Folder Include="Features\Lifecycle\Presentation\Pages\ViewModels\" />
-    <Folder Include="Features\Lifecycle\Presentation\Pulses\" />
+    <Folder Include="Features\Lifecycle\Presentation\Pulses\Actions\" />
+    <Folder Include="Features\Lifecycle\Presentation\Pulses\Effects\" />
+    <Folder Include="Features\Lifecycle\Presentation\Pulses\Reducers\" />
     <Folder Include="Features\Monitoring\Abstractions\" />
     <Folder Include="Features\Monitoring\Applcation\" />
     <Folder Include="Features\Monitoring\Domain\" />
     <Folder Include="Features\Monitoring\Infrastruture\" />
     <Folder Include="Features\Monitoring\Presentation\" />
+    <Folder Include="Layout\Pulses\Actions\" />
+    <Folder Include="Layout\Pulses\Effect\" />
+    <Folder Include="Layout\Pulses\Reducers\" />
+    <Folder Include="Layout\Pulses\Stores\" />
+    <Folder Include="Layout\ViewModels\" />
   </ItemGroup>
 
+	<!-- DEBUG BUILD: Replace {{BASE_URL}} with empty string -->
+
+	
+	<Target Name="PublishToModuleDir" AfterTargets="Publish;_CopyFilesToPublishDirectory" Condition="'$(Configuration)' == 'Release'">
+		<PropertyGroup>
+			<!-- Use bin folder, not obj -->
+			<OutputBase>$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetFramework)\browser-wasm</OutputBase>
+			<ModulePublishDir>$(OutputBase)\blazor_lgsm\</ModulePublishDir>
+			<PackageOutput>$(OutputBase)\publish\blazor_lgsm-v$(Version).wbm.gz</PackageOutput>
+			<PublishedIndexHtml>$(PublishDir)\wwwroot\index.html</PublishedIndexHtml>
+		</PropertyGroup>
+
+		<Message Text="========== DEBUG BUILD REWRITE ==========" Importance="high" />
+		<Message Text="PublishedIndexHtml: $(PublishedIndexHtml)" Importance="high" />
+		<Message Text="ProjectDir: $(ProjectDir)" Importance="high" />
+		<Message Text="Configuration: $(Configuration)" Importance="high" />
+		<Message Text="TargetFramework: $(TargetFramework)" Importance="high" />
+
+		<Message Text="Copying wwwroot to output..." Importance="high" />
+		<WriteLinesToFile
+			File="$(PublishedIndexHtml)"
+			Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText(`$(PublishedIndexHtml)`)),'base href=&quot;/&quot;','base href=&quot;/blazor_lgsm/wwwroot/&quot;'))"
+			Overwrite="true" />
+
+		<!--Create output directory -->
+		<MakeDir Directories="$(ModulePublishDir)" />
+
+		<!-- Copy everything from Blazor publish -->
+		<ItemGroup>
+			<PublishedFiles Include="$(PublishDir)**\*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(PublishedFiles)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
+
+		<!-- Copy all webmin module files and subdirectories -->
+		<ItemGroup>
+			<WebminModuleFiles Include="..\GameServerManager.WebminModule\**\*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(WebminModuleFiles)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
+
+
+
+
+
+
+		<!-- Check if tar is available -->
+		<Exec Command="tar --version" IgnoreExitCode="true" ConsoleToMSBuild="true">
+			<Output TaskParameter="ExitCode" PropertyName="TarExitCode" />
+		</Exec>
+
+		<!-- Fail build if tar not found -->
+		<Error Text="tar is not available. Install tar to build Webmin module package." Condition="'$(TarExitCode)' != '0'" />
+
+		<!-- Package it - use explicit relative path -->
+		<Exec Command="tar -czf &quot;$(PackageOutput)&quot; -C &quot;$(OutputBase)&quot; ./blazor_lgsm" />
+		
+
+		<!-- Verify contents -->
+		<Exec Command="tar -tzf &quot;$(PackageOutput)&quot;" ConsoleToMSBuild="true">
+			<Output TaskParameter="ConsoleOutput" PropertyName="TarContents" />
+		</Exec>
+
+		<ZipDirectory SourceDirectory="$(ModulePublishDir)wwwroot" DestinationFile="$(OutputBase)\publish\wwwroot.zip" Overwrite="true" />
+		
+		<Message Text="Module directory: $(ModulePublishDir)" Importance="high" />
+		<Message Text="Package created: $(PackageOutput)" Importance="high" />
+		<Message Text="Package contents:%0A$(TarContents)" Importance="high" />
+    </Target>
 </Project>
