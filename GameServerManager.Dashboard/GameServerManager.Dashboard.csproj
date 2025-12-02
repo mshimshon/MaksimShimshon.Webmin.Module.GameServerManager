@@ -49,7 +49,8 @@
 			<PackageOutput>$([System.IO.Path]::Combine('$(OutputBase)', 'publish', 'blazor_lgsm-v$(Version).wbm.gz'))</PackageOutput>
 			<PublishedIndexHtml>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot', 'index.html'))</PublishedIndexHtml>
 			<WwwrootZipOutput>$([System.IO.Path]::Combine('$(OutputBase)', 'publish', 'wwwroot.zip'))</WwwrootZipOutput>
-			<WebminModuleSourceDir>$([System.IO.Path]::Combine('$(SolutionDir)', 'GameServerManager.WebminModule'))</WebminModuleSourceDir>
+			<WebminModuleSourceDir>$([System.IO.Path]::Combine('$(SolutionDir)', 'GameServerManager.WebminModule', '**', '*'))</WebminModuleSourceDir>
+			<PublishedFilesToCopy>$([System.IO.Path]::Combine('$(PublishDir)', '**','*'))</PublishedFilesToCopy>
 		</PropertyGroup>
 
 		<Message Text="========== DEBUG BUILD REWRITE ==========" Importance="high" />
@@ -57,23 +58,20 @@
 		<Message Text="ProjectDir: $(ProjectDir)" Importance="high" />
 		<Message Text="Configuration: $(Configuration)" Importance="high" />
 		<Message Text="TargetFramework: $(TargetFramework)" Importance="high" />
-
+		<Message Text="PublishDir: $(PublishDir)" Importance="high" />
+		<Message Text="OutputBase: $(OutputBase)" Importance="high" />
+		<Message Text="PublishedFilesToCopy: $(PublishedFilesToCopy)" Importance="high" />
+		<Message Text="WebminModuleSourceDir: $(WebminModuleSourceDir)" Importance="high" />
+		
 		<Message Text="Copying wwwroot to output..." Importance="high" />
 		<WriteLinesToFile File="$(PublishedIndexHtml)" Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText(`$(PublishedIndexHtml)`)),'base href=&quot;/&quot;','base href=&quot;/blazor_lgsm/wwwroot/&quot;'))" Overwrite="true" />
 
 		<!--Create output directory -->
 		<MakeDir Directories="$(ModulePublishDir)" />
 
-		<!-- Copy everything from Blazor publish -->
-		<ItemGroup>
-			<PublishedFiles Include="$(PublishDir)**/*" />
-		</ItemGroup>
 		
 		<Copy SourceFiles="@(PublishedFiles)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
 		<Copy SourceFiles="@(WebminModuleSourceDir)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
-
-
-
 
 		<!-- Check if tar is available -->
 		<Exec Command="tar --version" IgnoreExitCode="true" ConsoleToMSBuild="true">
