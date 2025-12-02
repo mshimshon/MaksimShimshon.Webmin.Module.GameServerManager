@@ -44,11 +44,12 @@
 	
 	<Target Name="PublishToModuleDir" AfterTargets="Publish;_CopyFilesToPublishDirectory" Condition="'$(Configuration)' == 'Release'">
 		<PropertyGroup>
-			<!-- Use bin folder, not obj -->
-			<OutputBase>$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetFramework)\browser-wasm</OutputBase>
-			<ModulePublishDir>$(OutputBase)\blazor_lgsm\</ModulePublishDir>
-			<PackageOutput>$(OutputBase)\publish\blazor_lgsm-v$(Version).wbm.gz</PackageOutput>
-			<PublishedIndexHtml>$(PublishDir)\wwwroot\index.html</PublishedIndexHtml>
+			<OutputBase>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', 'bin', '$(Configuration)', '$(TargetFramework)', 'browser-wasm'))</OutputBase>
+			<ModulePublishDir>$([System.IO.Path]::Combine('$(OutputBase)', 'blazor_lgsm'))</ModulePublishDir>
+			<PackageOutput>$([System.IO.Path]::Combine('$(OutputBase)', 'publish', 'blazor_lgsm-v$(Version).wbm.gz'))</PackageOutput>
+			<PublishedIndexHtml>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot', 'index.html'))</PublishedIndexHtml>
+			<WwwrootZipOutput>$([System.IO.Path]::Combine('$(OutputBase)', 'publish', 'wwwroot.zip'))</WwwrootZipOutput>
+			<WebminModuleSourceDir>$([System.IO.Path]::Combine('$(SolutionDir)', 'GameServerManager.WebminModule'))</WebminModuleSourceDir>
 		</PropertyGroup>
 
 		<Message Text="========== DEBUG BUILD REWRITE ==========" Importance="high" />
@@ -65,17 +66,11 @@
 
 		<!-- Copy everything from Blazor publish -->
 		<ItemGroup>
-			<PublishedFiles Include="$(PublishDir)**\*" />
+			<PublishedFiles Include="$(PublishDir)**/*" />
 		</ItemGroup>
+		
 		<Copy SourceFiles="@(PublishedFiles)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
-
-		<!-- Copy all webmin module files and subdirectories -->
-		<ItemGroup>
-			<WebminModuleFiles Include="..\GameServerManager.WebminModule\**\*" />
-		</ItemGroup>
-		<Copy SourceFiles="@(WebminModuleFiles)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
-
-
+		<Copy SourceFiles="@(WebminModuleSourceDir)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
 
 
 
@@ -97,7 +92,7 @@
 			<Output TaskParameter="ConsoleOutput" PropertyName="TarContents" />
 		</Exec>
 
-		<ZipDirectory SourceDirectory="$(ModulePublishDir)wwwroot" DestinationFile="$(OutputBase)\publish\wwwroot.zip" Overwrite="true" />
+		<ZipDirectory SourceDirectory="$(ModulePublishDir)wwwroot" DestinationFile="$(WwwrootZipOutput)" Overwrite="true" />
 		
 		<Message Text="Module directory: $(ModulePublishDir)" Importance="high" />
 		<Message Text="Package created: $(PackageOutput)" Importance="high" />
