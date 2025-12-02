@@ -52,18 +52,18 @@ jobs:
           echo "Deploying version: $VERSION (tag: $TAG)"
       
       - name: Restore dependencies
-        run: dotnet restore src/blazor_lgsm/blazor_lgsm.csproj
+        run: dotnet restore GameServerManager.Dashboard/GameServerManager.Dashboard.csproj
       
-      - name: Publish Webmin module
+      - name: Publish
         run: |
-          dotnet publish src/blazor_lgsm/blazor_lgsm.csproj \
+          dotnet publish GameServerManager.Dashboard/GameServerManager.Dashboard.csproj \
             -c Release \
             /p:Version=${{ steps.version.outputs.version }}
       
       - name: Verify .wbm.gz file
         id: wbm
         run: |
-          WBM_PATH="src/blazor_lgsm/bin/Release/net10.0/browser-wasm/publish/blazor_lgsm-v${{ steps.version.outputs.version }}.wbm.gz"
+          WBM_PATH="GameServerManager.Dashboard/bin/Release/net10.0/browser-wasm/publish/blazor_lgsm-v${{ steps.version.outputs.version }}.wbm.gz"
           if [ ! -f "$WBM_PATH" ]; then
             echo "Error: Expected file not found at $WBM_PATH"
             echo "Looking for any .wbm.gz files:"
