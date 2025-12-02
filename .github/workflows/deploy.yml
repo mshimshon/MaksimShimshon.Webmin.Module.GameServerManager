@@ -63,7 +63,7 @@ jobs:
       - name: Verify .wbm.gz file
         id: wbm
         run: |
-          WBM_PATH="GameServerManager.Dashboard/bin/Release/net10.0/browser-wasm/publish/blazor_lgsm-v${{ steps.version.outputs.version }}.wbm.gz"
+          WBM_PATH="GameServerManager.Dashboard/bin/out/blazor_lgsm-v${{ steps.version.outputs.version }}.wbm.gz"
           if [ ! -f "$WBM_PATH" ]; then
             echo "Error: Expected file not found at $WBM_PATH"
             echo "Looking for any .wbm.gz files:"
