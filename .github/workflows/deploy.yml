@@ -1,0 +1,96 @@
+name: Deploy
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to deploy (e.g., v1.0.0)'
+        required: false
+        type: string
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && 
+       github.event.workflow_run.conclusion == 'success' && 
+       github.event.workflow_run.event == 'push' &&
+       startsWith(github.event.workflow_run.head_branch, 'v'))
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: | 
+            10.0.x
+      
+      - name: Extract version and tag
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${{ github.event.workflow_run.head_branch }}"
+          fi
+          VERSION=${TAG#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Deploying version: $VERSION (tag: $TAG)"
+      
+      - name: Restore dependencies
+        run: dotnet restore GameServerManager.Dashboard/GameServerManager.Dashboard.csproj
+      
+      - name: Publish
+        run: |
+          dotnet publish GameServerManager.Dashboard/GameServerManager.Dashboard.csproj \
+            -c Release \
+            /p:Version=${{ steps.version.outputs.version }}
+      
+      - name: Verify .wbm.gz file
+        id: wbm
+        run: |
+          WBM_PATH="GameServerManager.Dashboard/bin/Release/net10.0/browser-wasm/publish/blazor_lgsm-v${{ steps.version.outputs.version }}.wbm.gz"
+          if [ ! -f "$WBM_PATH" ]; then
+            echo "Error: Expected file not found at $WBM_PATH"
+            echo "Looking for any .wbm.gz files:"
+            find src/blazor_lgsm/bin -name "*.wbm.gz" -type f
+            exit 1
+          fi
+          echo "wbm_path=$WBM_PATH" >> $GITHUB_OUTPUT
+          echo "wbm_name=blazor_lgsm-v${{ steps.version.outputs.version }}.wbm.gz" >> $GITHUB_OUTPUT
+          echo "Found: $WBM_PATH"
+          ls -lh "$WBM_PATH"
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Release ${{ steps.version.outputs.tag }}
+          body: |
+            ## blazor_lgsm Webmin Module - ${{ steps.version.outputs.version }}
+            
+            ### Installation
+            1. Download `${{ steps.wbm.outputs.wbm_name }}`
+            2. In Webmin, go to Webmin Configuration → Webmin Modules
+            3. Install from local file: select the downloaded `.wbm.gz` file
+            
+            ### Changes
+            See commit history for details.
+          files: |
+            ${{ steps.wbm.outputs.wbm_path }}
+          draft: false
+          prerelease: false
