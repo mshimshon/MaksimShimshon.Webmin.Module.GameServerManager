@@ -1,0 +1,28 @@
+﻿@page "/webmin/module/{module}"
+@using GameServerManager.Dashboard.Shared.Webmin.Presentation.Components
+<MudGrid>
+    <MudItem xs="12" Style="height:80vh;">
+        @if (_viewModel.Loading || !_viewModel.WebminModalStore.IsReady)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            @if (string.IsNullOrEmpty(_viewModel.WebminModalStore.ModuleName))
+            {
+                <p>Error Module Invalid</p>
+            }
+            else if (!string.IsNullOrEmpty(_viewModel.WebminModalStore.ErrorCode))
+            {
+                <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">
+                    @_viewModel.WebminModalStore.ErrorMessage
+                </MudAlert>
+            }
+            else
+            {
+                <WebminModuleFrame ModuleName=@_viewModel.WebminModalStore.ModuleName />
+            }
+        }
+    </MudItem>
+</MudGrid>
+

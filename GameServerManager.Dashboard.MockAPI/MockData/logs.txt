@@ -1,0 +1,8 @@
+[2024-12-01 10:00:00] Server starting...
+[2024-12-01 10:00:05] Loading map: de_dust2
+[2024-12-01 10:00:10] Server ready
+[2024-12-01 10:05:23] Player "ProGamer123" connected
+[2024-12-01 10:12:45] Player "NoobMaster" connected
+[2024-12-01 10:15:30] Round started
+[2024-12-01 10:22:15] Player "ProGamer123" disconnected
+[2024-12-01 10:30:00] Map changed to: de_inferno

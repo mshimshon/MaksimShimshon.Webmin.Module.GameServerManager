@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="CoreMap" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
@@ -23,24 +24,19 @@
   <ItemGroup>
     <Folder Include="Features\Backup\" />
     <Folder Include="Features\Configuration\" />
-    <Folder Include="Features\Lifecycle\Abstractions\" />
-    <Folder Include="Features\Lifecycle\Applcation\" />
-    <Folder Include="Features\Lifecycle\Domain\" />
+    <Folder Include="Features\Lifecycle\Applcation\DTOs\Requests\" />
     <Folder Include="Features\Lifecycle\Infrastruture\" />
     <Folder Include="Features\Lifecycle\Presentation\Components\" />
-    <Folder Include="Features\Lifecycle\Presentation\Pulses\Actions\" />
-    <Folder Include="Features\Lifecycle\Presentation\Pulses\Effects\" />
-    <Folder Include="Features\Lifecycle\Presentation\Pulses\Reducers\" />
     <Folder Include="Features\Monitoring\Abstractions\" />
     <Folder Include="Features\Monitoring\Applcation\" />
     <Folder Include="Features\Monitoring\Domain\" />
     <Folder Include="Features\Monitoring\Infrastruture\" />
     <Folder Include="Features\Monitoring\Presentation\" />
-    <Folder Include="Layout\Pulses\Actions\" />
-    <Folder Include="Layout\Pulses\Effect\" />
-    <Folder Include="Layout\Pulses\Reducers\" />
-    <Folder Include="Layout\Pulses\Stores\" />
     <Folder Include="Layout\ViewModels\" />
+    <Folder Include="Shared\Webmin\Abstractions\Pulses\Actions\" />
+    <Folder Include="Shared\Webmin\Application\" />
+    <Folder Include="Shared\Webmin\Domain\" />
+    <Folder Include="Shared\Webmin\Infrastruture\" />
   </ItemGroup>
 
 	<!-- DEBUG BUILD: Replace {{BASE_URL}} with empty string -->
@@ -62,10 +58,7 @@
 		<Message Text="TargetFramework: $(TargetFramework)" Importance="high" />
 
 		<Message Text="Copying wwwroot to output..." Importance="high" />
-		<WriteLinesToFile
-			File="$(PublishedIndexHtml)"
-			Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText(`$(PublishedIndexHtml)`)),'base href=&quot;/&quot;','base href=&quot;/blazor_lgsm/wwwroot/&quot;'))"
-			Overwrite="true" />
+		<WriteLinesToFile File="$(PublishedIndexHtml)" Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText(`$(PublishedIndexHtml)`)),'base href=&quot;/&quot;','base href=&quot;/blazor_lgsm/wwwroot/&quot;'))" Overwrite="true" />
 
 		<!--Create output directory -->
 		<MakeDir Directories="$(ModulePublishDir)" />

@@ -2,7 +2,7 @@
 @page "/lifecycle"
 <MudGrid>
     <MudItem>
-        <MudFab Color="Color.Error" StartIcon="@Icons.Material.Filled.Stop" DropShadow="false" Size=@Size.Small OnClick=@(()=> Console.WriteLine("OK")) />
-        <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.PlayArrow" DropShadow="false" />
+        <MudFab Color="Color.Error" StartIcon="@Icons.Material.Filled.Stop" DropShadow="false" Size=@Size.Small OnClick=@(() => _viewModel.Stop()) Disabled=@(!_viewModel.ServerState.IsRunning || _viewModel.Loading) />
+        <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.PlayArrow" DropShadow="false" OnClick=@(() => _viewModel.Start()) Disabled=@(_viewModel.ServerState.IsRunning || _viewModel.Loading) />
     </MudItem>
 </MudGrid>

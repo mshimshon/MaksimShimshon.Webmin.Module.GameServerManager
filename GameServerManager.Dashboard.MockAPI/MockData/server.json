@@ -1,0 +1,10 @@
+{
+  "id": "pzserver",
+  "name": "Project Zomboid",
+  "game": "Project Zomboid",
+  "steamid": "108600",
+  "port": 12661,
+  "max_players": 32,
+  "uptime": "2d",
+  "status": "running"
+}
