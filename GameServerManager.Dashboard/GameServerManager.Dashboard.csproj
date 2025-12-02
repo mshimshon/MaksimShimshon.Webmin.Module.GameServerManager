@@ -42,15 +42,17 @@
 	<!-- DEBUG BUILD: Replace {{BASE_URL}} with empty string -->
 
 	
-	<Target Name="PublishToModuleDir" AfterTargets="Publish;_CopyFilesToPublishDirectory" Condition="'$(Configuration)' == 'Release'">
+	<Target Name="PublishToModuleDir" AfterTargets="AfterPublish" Condition="'$(Configuration)' == 'Release'">
 		<PropertyGroup>
-			<OutputBase>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', 'bin', '$(Configuration)', '$(TargetFramework)', 'browser-wasm'))</OutputBase>
-			<ModulePublishDir>$([System.IO.Path]::Combine('$(OutputBase)', 'blazor_lgsm'))</ModulePublishDir>
-			<PackageOutput>$([System.IO.Path]::Combine('$(OutputBase)', 'publish', 'blazor_lgsm-v$(Version).wbm.gz'))</PackageOutput>
+			<WwwrootDir>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot'))</WwwrootDir>
 			<PublishedIndexHtml>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot', 'index.html'))</PublishedIndexHtml>
-			<WwwrootZipOutput>$([System.IO.Path]::Combine('$(OutputBase)', 'publish', 'wwwroot.zip'))</WwwrootZipOutput>
-			<WebminModuleSourceDir>$([System.IO.Path]::Combine('$(SolutionDir)', 'GameServerManager.WebminModule', '**', '*'))</WebminModuleSourceDir>
-			<PublishedFilesToCopy>$([System.IO.Path]::Combine('$(PublishDir)', '**','*'))</PublishedFilesToCopy>
+			<WebminModuleSourceDir>$([System.IO.Path]::Combine('$(SolutionDir)', 'GameServerManager.WebminModule'))</WebminModuleSourceDir>
+			<PublishedFilesToCopy>$([System.IO.Path]::Combine('$(PublishDir)'))</PublishedFilesToCopy>
+
+			<FinalOutput>$([System.IO.Path]::Combine('$(ProjectDir)', 'bin', 'out'))</FinalOutput>
+			<ModulePublishDir>$([System.IO.Path]::Combine('$(FinalOutput)', 'blazor_lgsm'))</ModulePublishDir>
+			<PackageOutput>$([System.IO.Path]::Combine('$(FinalOutput)', 'blazor_lgsm-v$(Version).wbm.gz'))</PackageOutput>
+			<WwwrootZipOutput>$([System.IO.Path]::Combine('$(FinalOutput)', 'wwwroot.zip'))</WwwrootZipOutput>
 		</PropertyGroup>
 
 		<Message Text="========== DEBUG BUILD REWRITE ==========" Importance="high" />
@@ -59,19 +61,26 @@
 		<Message Text="Configuration: $(Configuration)" Importance="high" />
 		<Message Text="TargetFramework: $(TargetFramework)" Importance="high" />
 		<Message Text="PublishDir: $(PublishDir)" Importance="high" />
-		<Message Text="OutputBase: $(OutputBase)" Importance="high" />
+		<Message Text="PackageOutput: $(PackageOutput)" Importance="high" />
+		<Message Text="ModulePublishDir: $(ModulePublishDir)" Importance="high" />
 		<Message Text="PublishedFilesToCopy: $(PublishedFilesToCopy)" Importance="high" />
 		<Message Text="WebminModuleSourceDir: $(WebminModuleSourceDir)" Importance="high" />
+		<Message Text="WwwrootDir: $(WwwrootDir)" Importance="high" />
 		
 		<Message Text="Copying wwwroot to output..." Importance="high" />
 		<WriteLinesToFile File="$(PublishedIndexHtml)" Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText(`$(PublishedIndexHtml)`)),'base href=&quot;/&quot;','base href=&quot;/blazor_lgsm/wwwroot/&quot;'))" Overwrite="true" />
 
 		<!--Create output directory -->
+		<RemoveDir Directories="$(FinalOutput)" Condition="Exists('$(FinalOutput)')" />
 		<MakeDir Directories="$(ModulePublishDir)" />
 
+		<ItemGroup>
+			<PublishedFiles Include="$(PublishDir)**/*" />
+			<WebminModuleSourceFiles Include="$(SolutionDir)/GameServerManager.WebminModule/**/*" />
+		</ItemGroup>
 		
-		<Copy SourceFiles="@(PublishedFiles)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
-		<Copy SourceFiles="@(WebminModuleSourceDir)" DestinationFolder="$(ModulePublishDir)%(RecursiveDir)" />
+		<Copy SourceFiles="@(PublishedFiles)" DestinationFolder="$(ModulePublishDir)$([System.IO.Path]::DirectorySeparatorChar)%(RecursiveDir)" />
+		<Copy SourceFiles="@(WebminModuleSourceFiles)" DestinationFolder="$(ModulePublishDir)$([System.IO.Path]::DirectorySeparatorChar)%(RecursiveDir)" />
 
 		<!-- Check if tar is available -->
 		<Exec Command="tar --version" IgnoreExitCode="true" ConsoleToMSBuild="true">
@@ -82,7 +91,7 @@
 		<Error Text="tar is not available. Install tar to build Webmin module package." Condition="'$(TarExitCode)' != '0'" />
 
 		<!-- Package it - use explicit relative path -->
-		<Exec Command="tar -czf &quot;$(PackageOutput)&quot; -C &quot;$(OutputBase)&quot; ./blazor_lgsm" />
+		<Exec Command="tar -czf &quot;$(PackageOutput)&quot; -C &quot;$(ModulePublishDir)&quot; ." />
 		
 
 		<!-- Verify contents -->
@@ -90,8 +99,9 @@
 			<Output TaskParameter="ConsoleOutput" PropertyName="TarContents" />
 		</Exec>
 
-		<ZipDirectory SourceDirectory="$(ModulePublishDir)wwwroot" DestinationFile="$(WwwrootZipOutput)" Overwrite="true" />
-		
+		<ZipDirectory SourceDirectory="$(WwwrootDir)" DestinationFile="$(WwwrootZipOutput)" Overwrite="true" />
+		<RemoveDir Directories="$(ModulePublishDir)" Condition="Exists('$(ModulePublishDir)')" />
+
 		<Message Text="Module directory: $(ModulePublishDir)" Importance="high" />
 		<Message Text="Package created: $(PackageOutput)" Importance="high" />
 		<Message Text="Package contents:%0A$(TarContents)" Importance="high" />
