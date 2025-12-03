@@ -1,0 +1,18 @@
+{
+    "mods": {
+        "enabled": true,
+        "usesSteamWorkshop": true,
+        "requiresOrdering": true,  
+        "modsFolder": "/home/lgsm/serverfiles/Mods",
+        "preStartScripts": [
+          {
+            "name": "Update Mods",
+            "script": "update_mods.sh"
+          },
+          {
+            "name": "Convert PBOs to Lowercases",
+            "script": "update_mods.sh"
+          }
+        ]
+      }
+  }

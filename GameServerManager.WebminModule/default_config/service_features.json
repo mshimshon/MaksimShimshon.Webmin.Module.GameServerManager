@@ -1,0 +1,17 @@
+{
+    "mods": {
+        "enabled": true
+    },
+    "discord_api":{
+        "enabled":true
+    },
+    "backup":{
+        "enabled":true
+    },
+    "fileManager":{
+        "enabled":true
+    },
+    "serverControl":{
+        "enabled":true
+    }
+}
