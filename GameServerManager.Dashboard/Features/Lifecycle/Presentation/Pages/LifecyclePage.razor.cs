@@ -4,7 +4,7 @@ using SwizzleV;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Presentation.Pages;
 
-public partial class LifecyclePage
+public partial class LifecyclePage : IAsyncDisposable
 {
     [Inject] public ISwizzleFactory SwizzleFactory { get; set; } = default!;
 
@@ -17,4 +17,15 @@ public partial class LifecyclePage
         _viewModel = articleVMHook.GetViewModel<LifecyclePageViewModel>()!;
     }
     private Task ShouldUpdate() => InvokeAsync(StateHasChanged);
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) 
+            await _viewModel.StartListening();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _viewModel.StopListening();
+    }
 }

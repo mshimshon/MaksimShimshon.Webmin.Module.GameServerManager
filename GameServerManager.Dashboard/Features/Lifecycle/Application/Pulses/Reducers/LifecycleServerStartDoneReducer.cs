@@ -7,10 +7,9 @@ namespace GameServerManager.Dashboard.Features.Lifecycle.Applcation.Pulses.Reduc
 public class LifecycleServerStartDoneReducer : IReducer<LifecycleServerState, LifecycleServerStartDoneAction>
 {
     public async Task<LifecycleServerState> ReduceAsync(LifecycleServerState state, LifecycleServerStartDoneAction action) {
-        Console.WriteLine("Server Launch Completed, State Updated!");
         return await Task.FromResult(state with
         {
-            IsRunning = action.IsStarted,
+            ServerInfo = action.ServerInfo,
             LastRunErrorCode = action.ErrorCode,
             LastRunErrorMessage = action.ErrorMessage
         });

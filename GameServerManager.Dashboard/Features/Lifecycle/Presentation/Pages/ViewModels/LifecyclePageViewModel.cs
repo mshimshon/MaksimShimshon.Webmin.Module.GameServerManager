@@ -48,5 +48,20 @@ public class LifecyclePageViewModel
         await _dispatcher.Prepare<LifecycleServerStartAction>().DispatchAsync();
         Loading = false;
     }
+    public bool IsRunning() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Running;
+    public bool IsStopped() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Stopped;
+    public bool IsRestarting() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Running;
+    public bool IsFailed() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Failed;
+    public bool IsWaiting() => ServerState.ServerInfo == default;
 
+
+    public async Task StartListening()
+    {
+
+    }
+
+    public async Task StopListening()
+    {
+
+    }
 }

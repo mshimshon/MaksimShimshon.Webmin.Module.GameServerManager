@@ -1,4 +1,4 @@
-﻿namespace GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
+﻿namespace GameServerManager.Dashboard.Features.Lifecycle.Domain.Enums;
 
 public enum Status
 {

@@ -14,8 +14,10 @@
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="CoreMap" Version="1.0.0" />
+    <PackageReference Include="MediHater" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
     <PackageReference Include="MudBlazor" Version="8.15.0" />
     <PackageReference Include="StatePulse.Net" Version="1.1.0" />
     <PackageReference Include="SwizzleV" Version="1.0.0" />
@@ -24,18 +26,18 @@
   <ItemGroup>
     <Folder Include="Features\Backup\" />
     <Folder Include="Features\Configuration\" />
-    <Folder Include="Features\Lifecycle\Applcation\DTOs\Requests\" />
-    <Folder Include="Features\Lifecycle\Infrastruture\" />
     <Folder Include="Features\Lifecycle\Presentation\Components\" />
     <Folder Include="Features\Monitoring\Abstractions\" />
     <Folder Include="Features\Monitoring\Applcation\" />
     <Folder Include="Features\Monitoring\Domain\" />
     <Folder Include="Features\Monitoring\Infrastruture\" />
     <Folder Include="Features\Monitoring\Presentation\" />
-    <Folder Include="Layout\ViewModels\" />
+    <Folder Include="Shared\Notification\Application\" />
+    <Folder Include="Shared\Notification\Domain\" />
+    <Folder Include="Shared\Notification\Infrastructure\" />
+    <Folder Include="Shared\Providers\Domain\" />
     <Folder Include="Shared\Webmin\Abstractions\Pulses\Actions\" />
     <Folder Include="Shared\Webmin\Application\" />
-    <Folder Include="Shared\Webmin\Domain\" />
     <Folder Include="Shared\Webmin\Infrastruture\" />
   </ItemGroup>
 
@@ -101,7 +103,6 @@
 
 		<ZipDirectory SourceDirectory="$(WwwrootDir)" DestinationFile="$(WwwrootZipOutput)" Overwrite="true" />
 		<RemoveDir Directories="$(ModulePublishDir)" Condition="Exists('$(ModulePublishDir)')" />
-
 		<Message Text="Module directory: $(ModulePublishDir)" Importance="high" />
 		<Message Text="Package created: $(PackageOutput)" Importance="high" />
 		<Message Text="Package contents:%0A$(TarContents)" Importance="high" />
