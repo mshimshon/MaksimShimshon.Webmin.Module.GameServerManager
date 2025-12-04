@@ -14,8 +14,8 @@ public static class ProviderInfrastructureServiceExt
     public static IServiceCollection AddProviderInfrastructure(this IServiceCollection services)
     {
         services.AddScoped<IWebClient, Webclient>();
-        services.AddProviderApplication();
         services.AddHttpClient<IWebClient, Webclient>();
+        services.AddProviderApplication();
         return services;
     }
 }

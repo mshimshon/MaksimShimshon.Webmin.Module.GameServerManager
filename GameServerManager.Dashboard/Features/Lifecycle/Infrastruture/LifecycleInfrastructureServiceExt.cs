@@ -1,6 +1,7 @@
 ﻿using GameServerManager.Dashboard.Features.Lifecycle.Applcation.Services;
 using GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Servicers;
 using GameServerManager.Dashboard.Features.Lifecycle.Presentation.Pages.ViewModels;
+using GameServerManager.Dashboard.Shared.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,12 @@ public static class LifecycleInfrastructureServiceExt
 {
     public static IServiceCollection AddLifecycleInfrastructure(this IServiceCollection services)
     {
-        services.AddScoped<ILifecycleServices, LifecycleService>();
+        services.AddWebService<ILifecycleServices, LifecycleService>((sp,configure) =>
+        {
+            var host = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
+            var baseUrl = new Uri(host.BaseAddress);
+            configure.BaseAddress = new Uri(baseUrl, "blazor_lgsm/scripts/lifecycle/");
+        });
 
 
         return services;

@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using CoreMap;
 using GameServerManager.Dashboard;
 using GameServerManager.Dashboard.Features.Lifecycle.Presentation;
 using GameServerManager.Dashboard.Shared.Providers.Presentation;
@@ -39,6 +40,11 @@ builder.Services.AddMedihaterServices(cfg =>
         typeof(Program)
     ];
 });
+builder.Services.AddCoreMap(o =>
+{
+    o.Scope = CoreMap.Enums.ServiceScope.Scoped;
+
+}, new Type[] { typeof(Program) });
 builder.Services.AddSwizzleV();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 var baseAddress = builder.HostEnvironment.BaseAddress;

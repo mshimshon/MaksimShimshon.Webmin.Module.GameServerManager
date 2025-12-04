@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-    <PackageReference Include="CoreMap" Version="1.0.0" />
+    <PackageReference Include="CoreMap" Version="1.1.0" />
     <PackageReference Include="MediHater" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
@@ -38,7 +38,6 @@
     <Folder Include="Shared\Providers\Domain\" />
     <Folder Include="Shared\Webmin\Abstractions\Pulses\Actions\" />
     <Folder Include="Shared\Webmin\Application\" />
-    <Folder Include="Shared\Webmin\Infrastruture\" />
   </ItemGroup>
 
 	<!-- DEBUG BUILD: Replace {{BASE_URL}} with empty string -->
@@ -93,8 +92,7 @@
 		<Error Text="tar is not available. Install tar to build Webmin module package." Condition="'$(TarExitCode)' != '0'" />
 
 		<!-- Package it - use explicit relative path -->
-		<Exec Command="tar -czf &quot;$(PackageOutput)&quot; -C &quot;$(ModulePublishDir)&quot; ." />
-		
+		<Exec Command="tar -czf &quot;$(PackageOutput)&quot; -C &quot;$(FinalOutput)&quot; &quot;$([System.IO.Path]::GetFileName('$(ModulePublishDir)'))&quot;" />
 
 		<!-- Verify contents -->
 		<Exec Command="tar -tzf &quot;$(PackageOutput)&quot;" ConsoleToMSBuild="true">

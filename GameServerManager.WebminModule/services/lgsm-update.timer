@@ -1,0 +1,9 @@
+[Unit]
+Description=Run LGSM update every 5 seconds
+
+[Timer]
+OnUnitActiveSec=5s
+AccuracySec=1ms
+
+[Install]
+WantedBy=timers.target

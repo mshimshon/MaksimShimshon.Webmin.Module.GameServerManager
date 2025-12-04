@@ -10,7 +10,7 @@ public class TickerRunReducer : IReducer<TickerState, TickerRunAction>
     public async Task<TickerState> ReduceAsync(TickerState state, TickerRunAction action)
     {
         var nextState = state with { IsStarted = true, IsRunning = true, Ticks = action.Tick };
-        Console.WriteLine($"TickerState has Reduced to ({nextState.ToString()})");
+        //Console.WriteLine($"TickerState has Reduced to ({nextState.ToString()})");
         return await Task.FromResult(nextState);
     }
 }
