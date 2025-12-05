@@ -8,42 +8,37 @@ using GameServerManager.Dashboard.Shared.Webmin.Infrastruture.Exceptions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using StatePulse.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Servicers;
 
 public class LifecycleService : ILifecycleServices
 {
+    private const string _read_Server_Response_Error_Msg = "Could't read server response.";
+    private const string _server_Bad_Request_Error_Msg = "Bad Request";
+    private const string _server_Unknown_Error_Msg = "Unknown Error";
     private readonly IWebClient _webClient;
-    private readonly IWebAssemblyHostEnvironment _webAssemblyHostEnvironment;
     private readonly ICoreMap _coreMap;
 
     public Uri BaseAddress { get; set; } = default!;
     public LifecycleService(IWebClient webClient, IWebAssemblyHostEnvironment webAssemblyHostEnvironment, ICoreMap coreMap)
     {
         _webClient = webClient;
-        _webAssemblyHostEnvironment = webAssemblyHostEnvironment;
         _coreMap = coreMap;
     }
-    public Task<ServerInfoEntity> ServerRestartAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
-    public async Task<ServerInfoEntity> ServerStartAsync(CancellationToken cancellationToken = default)
+    public Task ServerRestartAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public async Task ServerStartAsync(CancellationToken cancellationToken = default)
     {
         var endpoint = new Uri(BaseAddress, "server_start.cgi");
         Console.WriteLine(endpoint.ToString());
         var response = await _webClient.GetAsync(endpoint.ToString());
         if (response.IsSuccessStatusCode)
-        {
-            var serverInfoResponse = await ServerStatusAsync(cancellationToken);
-            if (serverInfoResponse == default)
-                throw new WebServiceException("Could't read server response.");
-            var serverInfo = _coreMap.Map(serverInfoResponse).To<ServerInfoEntity>();
-            return serverInfo;
-        }
-        else
-            if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
-            throw new WebminLoginExpiredException("Could't read server response.");
+            return;
+        else if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
+            throw new WebminLoginExpiredException(_read_Server_Response_Error_Msg);
         else if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
-            throw new WebServiceException("Unknown Error");
-        throw new WebServiceException("Bad Request");
+            throw new WebServiceException(_server_Unknown_Error_Msg);
+        throw new WebServiceException(_server_Bad_Request_Error_Msg);
     }
     public async Task<ServerInfoEntity> ServerStatusAsync(CancellationToken cancellationToken = default)
     {
@@ -52,38 +47,41 @@ public class LifecycleService : ILifecycleServices
         var response = await _webClient.GetAsync(endpoint.ToString());
         if (response.IsSuccessStatusCode)
         {
-            var serverInfoResponse = await response.Content.ReadFromJsonAsync<StatusResponse>();
-            if (serverInfoResponse == default)
-                throw new WebServiceException("Could't read server response.");
-            var serverInfo = _coreMap.Map(serverInfoResponse).To<ServerInfoEntity>();
-            return serverInfo;
+            try
+            {
+                var serverInfoResponse = await response.Content.ReadFromJsonAsync<StatusResponse>();
+                Console.WriteLine($"{nameof(ServerStatusAsync)}: {serverInfoResponse}");
+                if (serverInfoResponse == default)
+                    throw new WebServiceException(_read_Server_Response_Error_Msg);
+                var serverInfo = _coreMap.Map(serverInfoResponse).To<ServerInfoEntity>();
+                return serverInfo;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{nameof(ServerStatusAsync)}: {ex.Message}");
+                throw new WebServiceException(_server_Bad_Request_Error_Msg);
+            }
+
         }
         else
             if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
-                throw new WebminLoginExpiredException("Could't read server response.");
+                throw new WebminLoginExpiredException(_read_Server_Response_Error_Msg);
         else if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
-            throw new WebServiceException("Unknown Error");
-        throw new WebServiceException("Bad Request");
+            throw new WebServiceException(_server_Unknown_Error_Msg);
+        throw new WebServiceException(_server_Bad_Request_Error_Msg);
 
     }
-    public async Task<ServerInfoEntity> ServerStopAsync(CancellationToken cancellationToken = default)
+    public async Task ServerStopAsync(CancellationToken cancellationToken = default)
     {
         var endpoint = new Uri(BaseAddress, "server_stop.cgi");
         Console.WriteLine(endpoint.ToString());
         var response = await _webClient.GetAsync(endpoint.ToString());
         if (response.IsSuccessStatusCode)
-        {
-            var serverInfoResponse = await ServerStatusAsync(cancellationToken);
-            if (serverInfoResponse == default)
-                throw new WebServiceException("Could't read server response.");
-            var serverInfo = _coreMap.Map(serverInfoResponse).To<ServerInfoEntity>();
-            return serverInfo;
-        }
-        else
-            if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
-            throw new WebminLoginExpiredException("Could't read server response.");
+            return;
+        else if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
+            throw new WebminLoginExpiredException(_read_Server_Response_Error_Msg);
         else if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
-            throw new WebServiceException("Unknown Error");
-        throw new WebServiceException("Bad Request");
+            throw new WebServiceException(_server_Unknown_Error_Msg);
+        throw new WebServiceException(_server_Bad_Request_Error_Msg);
     }
 }

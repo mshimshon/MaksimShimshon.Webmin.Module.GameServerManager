@@ -8,7 +8,7 @@ using StatePulse.Net;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Applcation.Commands.Handlers;
 
-public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand, ServerInfoEntity?>
+public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand>
 {
     private readonly ILifecycleServices _lifecycleServices;
     private readonly IDispatcher _dispatcher;
@@ -18,11 +18,11 @@ public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand, Se
         _lifecycleServices = lifecycleServices;
         _dispatcher = dispatcher;
     }
-    public async Task<ServerInfoEntity?> Handle(ExecStartServerCommand request, CancellationToken cancellationToken)
+    public async Task Handle(ExecStartServerCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            return await _lifecycleServices.ServerStartAsync();
+            await _lifecycleServices.ServerStartAsync();
         }
         catch (WebServiceException ex)
         {
@@ -30,7 +30,6 @@ public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand, Se
                 .With(p => p.Message, ex.Message)
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
-            return default;
         }
         catch
         {
@@ -38,7 +37,6 @@ public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand, Se
                 .With(p => p.Message, "Unknown Error, Please contact admins if persistent.")
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
-            return default;
         }
 
     }

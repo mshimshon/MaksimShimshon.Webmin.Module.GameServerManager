@@ -3,4 +3,4 @@ using MedihatR;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Applcation.Commands;
 
-public record ExecStopServerCommand : IRequest<ServerInfoEntity>;
+public record ExecStopServerCommand : IRequest;

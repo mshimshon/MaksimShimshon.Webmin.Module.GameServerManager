@@ -9,9 +9,7 @@ public class LifecycleServerStartDoneReducer : IReducer<LifecycleServerState, Li
     public async Task<LifecycleServerState> ReduceAsync(LifecycleServerState state, LifecycleServerStartDoneAction action) {
         return await Task.FromResult(state with
         {
-            ServerInfo = action.ServerInfo,
-            LastRunErrorCode = action.ErrorCode,
-            LastRunErrorMessage = action.ErrorMessage
+             SkipNextUpdates = 4
         });
     }
 }

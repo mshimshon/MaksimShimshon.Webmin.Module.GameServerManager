@@ -5,7 +5,4 @@ namespace GameServerManager.Dashboard.Features.Lifecycle.Abstractions.Pulses.Act
 
 public class LifecycleServerStopDoneAction : IAction
 {
-    public ServerInfoEntity? ServerInfo { get; set; }
-    public string? ErrorCode { get; set; }
-    public string? ErrorMessage { get; set; }
 }

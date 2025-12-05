@@ -5,7 +5,5 @@ namespace GameServerManager.Dashboard.Features.Lifecycle.Abstractions.Pulses.Act
 
 public record LifecycleServerStartDoneAction : IAction
 {
-    public ServerInfoEntity? ServerInfo { get; set; }
-    public string? ErrorCode { get; set; }
-    public string? ErrorMessage { get; set; }
+
 }

@@ -20,14 +20,9 @@ public class LifecycleServerStartEffect : IEffect<LifecycleServerStartAction>
     {
         Console.WriteLine("Server Launch has been dispatched.");
         var exec = new ExecStartServerCommand();
-        var serverInfo = await _medihater.Send(exec);
+        await _medihater.Send(exec);
 
         var dispatchPrep = dispatcher.Prepare<LifecycleServerStartDoneAction>();
-        dispatchPrep.With(p => p.ServerInfo, serverInfo);
-        if (serverInfo == default) {
-            dispatchPrep.With(p => p.ErrorCode, "CONNERR");
-            dispatchPrep.With(p => p.ErrorMessage, "Something was wrong with the connection, empty server info.");
-        }
         await dispatchPrep.DispatchAsync();
     }   
 }

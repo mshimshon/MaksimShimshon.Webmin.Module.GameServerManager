@@ -10,9 +10,7 @@ public class LifecycleServerStopDoneReducer : IReducer<LifecycleServerState, Lif
     {
         return await Task.FromResult(state with
         {
-            ServerInfo = action.ServerInfo,
-            LastRunErrorCode = action.ErrorCode,
-            LastRunErrorMessage = action.ErrorMessage
+            SkipNextUpdates = 4
         });
     }
 }

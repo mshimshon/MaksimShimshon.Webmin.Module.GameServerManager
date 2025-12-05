@@ -45,24 +45,23 @@ public class LifecyclePageViewModel
     public async Task Stop()
     {
         Loading = true;
-        await _dispatcher.Prepare<LifecycleServerStartAction>().DispatchAsync();
+        Console.WriteLine("Stopping Server...");
+        await _dispatcher.Prepare<LifecycleServerStopAction>().DispatchAsync();
         Loading = false;
     }
     public bool IsRunning() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Running;
     public bool IsStopped() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Stopped;
     public bool IsRestarting() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Running;
     public bool IsFailed() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Failed;
-    public bool IsWaiting() => ServerState.ServerInfo == default;
+    public bool IsWaiting() => ServerState.ServerInfo == default || ServerState.ServerInfo.Status == Domain.Enums.Status.Unknown || ServerState.SkipNextUpdates > 0;
 
 
     public async Task StartListening()
     {
-        await _dispatcher.Prepare<LifecycleServerStartAction>().DispatchAsync();
     }
 
     public async Task StopListening()
     {
-        await _dispatcher.Prepare<LifecycleServerStopAction>().DispatchAsync();
 
     }
 }

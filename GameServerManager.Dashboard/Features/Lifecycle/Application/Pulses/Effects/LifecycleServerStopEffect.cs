@@ -18,17 +18,10 @@ public class LifecycleServerStopEffect : IEffect<LifecycleServerStopAction>
     }
     public async Task EffectAsync(LifecycleServerStopAction action, IDispatcher dispatcher)
     {
-        Console.WriteLine("Server Launch has been dispatched.");
-        var exec = new ExecStartServerCommand();
-        var serverInfo = await _medihater.Send(exec);
+        var exec = new ExecStopServerCommand();
+        await _medihater.Send(exec);
 
         var dispatchPrep = dispatcher.Prepare<LifecycleServerStopDoneAction>();
-        dispatchPrep.With(p => p.ServerInfo, serverInfo);
-        if (serverInfo == default)
-        {
-            dispatchPrep.With(p => p.ErrorCode, "CONNERR");
-            dispatchPrep.With(p => p.ErrorMessage, "Something was wrong with the connection, empty server info.");
-        }
         await dispatchPrep.DispatchAsync();
     }
 }

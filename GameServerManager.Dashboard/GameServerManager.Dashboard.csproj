@@ -38,12 +38,14 @@
     <Folder Include="Shared\Providers\Domain\" />
     <Folder Include="Shared\Webmin\Abstractions\Pulses\Actions\" />
     <Folder Include="Shared\Webmin\Application\" />
+    <Folder Include="wwwroot\scripts\lifecycle\" />
+    <Folder Include="wwwroot\scripts\shared\" />
   </ItemGroup>
 
 	<!-- DEBUG BUILD: Replace {{BASE_URL}} with empty string -->
 
 	
-	<Target Name="PublishToModuleDir" AfterTargets="AfterPublish" Condition="'$(Configuration)' == 'Release'">
+	<Target Name="PublishToModuleDir" AfterTargets="AfterPublish;_CopyFilesToPublishDirectory" Condition="'$(Configuration)' == 'Release'">
 		<PropertyGroup>
 			<WwwrootDir>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot'))</WwwrootDir>
 			<PublishedIndexHtml>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot', 'index.html'))</PublishedIndexHtml>

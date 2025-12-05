@@ -33,12 +33,13 @@ public class GetServerStatusHandler : IRequestHandler<GetServerStatusQuery, Serv
                 .DispatchAsync();
             return default;
         }
-        catch
+        catch (Exception ex)
         {
             await _dispatcher.Prepare<SendToastNotificationAction>()
                 .With(p => p.Message, "Unknown Error, Please contact admins if persistent.")
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
+            Console.WriteLine(ex.Message);
             return default;
         }
 
