@@ -6,6 +6,7 @@ using GameServerManager.Dashboard.Shared.Exceptions;
 using GameServerManager.Dashboard.Shared.Providers.Abstraction;
 using GameServerManager.Dashboard.Shared.Webmin.Infrastruture.Exceptions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using StatePulse.Net;
 using System.Net.Http.Json;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Servicers;
@@ -24,7 +25,26 @@ public class LifecycleService : ILifecycleServices
         _coreMap = coreMap;
     }
     public Task<ServerInfoEntity> ServerRestartAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
-    public Task<ServerInfoEntity> ServerStartAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public async Task<ServerInfoEntity> ServerStartAsync(CancellationToken cancellationToken = default)
+    {
+        var endpoint = new Uri(BaseAddress, "server_start.cgi");
+        Console.WriteLine(endpoint.ToString());
+        var response = await _webClient.GetAsync(endpoint.ToString());
+        if (response.IsSuccessStatusCode)
+        {
+            var serverInfoResponse = await ServerStatusAsync(cancellationToken);
+            if (serverInfoResponse == default)
+                throw new WebServiceException("Could't read server response.");
+            var serverInfo = _coreMap.Map(serverInfoResponse).To<ServerInfoEntity>();
+            return serverInfo;
+        }
+        else
+            if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
+            throw new WebminLoginExpiredException("Could't read server response.");
+        else if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
+            throw new WebServiceException("Unknown Error");
+        throw new WebServiceException("Bad Request");
+    }
     public async Task<ServerInfoEntity> ServerStatusAsync(CancellationToken cancellationToken = default)
     {
         var endpoint = new Uri(BaseAddress, "server_status.cgi");
@@ -46,5 +66,24 @@ public class LifecycleService : ILifecycleServices
         throw new WebServiceException("Bad Request");
 
     }
-    public Task<ServerInfoEntity> ServerStopAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public async Task<ServerInfoEntity> ServerStopAsync(CancellationToken cancellationToken = default)
+    {
+        var endpoint = new Uri(BaseAddress, "server_stop.cgi");
+        Console.WriteLine(endpoint.ToString());
+        var response = await _webClient.GetAsync(endpoint.ToString());
+        if (response.IsSuccessStatusCode)
+        {
+            var serverInfoResponse = await ServerStatusAsync(cancellationToken);
+            if (serverInfoResponse == default)
+                throw new WebServiceException("Could't read server response.");
+            var serverInfo = _coreMap.Map(serverInfoResponse).To<ServerInfoEntity>();
+            return serverInfo;
+        }
+        else
+            if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
+            throw new WebminLoginExpiredException("Could't read server response.");
+        else if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
+            throw new WebServiceException("Unknown Error");
+        throw new WebServiceException("Bad Request");
+    }
 }

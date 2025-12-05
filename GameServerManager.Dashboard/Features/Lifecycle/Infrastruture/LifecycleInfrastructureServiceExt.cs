@@ -15,7 +15,7 @@ public static class LifecycleInfrastructureServiceExt
         {
             var host = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
             var baseUrl = new Uri(host.BaseAddress);
-            configure.BaseAddress = new Uri(baseUrl, "blazor_lgsm/scripts/lifecycle/");
+            configure.BaseAddress = new Uri(baseUrl, "scripts/lifecycle/");
         });
 
 

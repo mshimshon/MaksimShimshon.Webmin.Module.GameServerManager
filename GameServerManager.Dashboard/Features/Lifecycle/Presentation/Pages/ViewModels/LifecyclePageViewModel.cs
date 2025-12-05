@@ -57,11 +57,12 @@ public class LifecyclePageViewModel
 
     public async Task StartListening()
     {
-
+        await _dispatcher.Prepare<LifecycleServerStartAction>().DispatchAsync();
     }
 
     public async Task StopListening()
     {
+        await _dispatcher.Prepare<LifecycleServerStopAction>().DispatchAsync();
 
     }
 }
