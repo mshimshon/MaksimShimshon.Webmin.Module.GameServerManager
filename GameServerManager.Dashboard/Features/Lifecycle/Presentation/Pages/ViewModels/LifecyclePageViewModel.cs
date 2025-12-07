@@ -1,5 +1,6 @@
 ﻿using GameServerManager.Dashboard.Features.Lifecycle.Abstractions.Pulses.Actions;
 using GameServerManager.Dashboard.Features.Lifecycle.Applcation.Pulses.Stores;
+using GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Stores;
 using GameServerManager.Dashboard.Shared.Webmin.Presentation.Pulses.Stores;
 using StatePulse.Net;
 using SwizzleV;
@@ -26,6 +27,7 @@ public class LifecyclePageViewModel
     private readonly IDispatcher _dispatcher;
 
     public LifecycleServerState ServerState => _statePulse.StateOf<LifecycleServerState>(() => this, OnUpdate);
+    public LifecycleGameInfoState GameInfoState => _statePulse.StateOf<LifecycleGameInfoState>(() => this, OnUpdate);
     private async Task OnUpdate() => await _swizzleViewModel.SpreadChanges(() => this);
     public LifecyclePageViewModel(ISwizzleViewModel swizzleViewModel, IStatePulse statePulse, IDispatcher dispatcher)
     {
@@ -53,7 +55,7 @@ public class LifecyclePageViewModel
     public bool IsStopped() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Stopped;
     public bool IsRestarting() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Running;
     public bool IsFailed() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Failed;
-    public bool IsWaiting() => ServerState.ServerInfo == default || ServerState.ServerInfo.Status == Domain.Enums.Status.Unknown || ServerState.SkipNextUpdates > 0;
+    public bool IsWaiting() => ServerState.ServerInfo == default || ServerState.ServerInfo.Status == Domain.Enums.Status.Unknown || ServerState.SkipNextUpdates > 0 ;
 
 
     public async Task StartListening()

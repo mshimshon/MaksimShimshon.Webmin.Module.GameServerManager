@@ -3,12 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
 
-public record GameInfoEntity
+public sealed record GameInfoEntity
 {
     public string Name { get; init; } = default!;
 
     public bool Steam => SteamInfo != default;
     public SteamGameId? SteamInfo { get; init; }
+    public SystemInfoEntity? SystemInfo { get; init; }
     public bool Modding { get; init; }
     public bool ManualModUpload { get; init; }
 }

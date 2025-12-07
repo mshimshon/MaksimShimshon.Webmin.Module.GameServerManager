@@ -26,7 +26,6 @@
   <ItemGroup>
     <Folder Include="Features\Backup\" />
     <Folder Include="Features\Configuration\" />
-    <Folder Include="Features\Lifecycle\Presentation\Components\" />
     <Folder Include="Features\Monitoring\Abstractions\" />
     <Folder Include="Features\Monitoring\Applcation\" />
     <Folder Include="Features\Monitoring\Domain\" />
@@ -45,7 +44,7 @@
 	<!-- DEBUG BUILD: Replace {{BASE_URL}} with empty string -->
 
 	
-	<Target Name="PublishToModuleDir" AfterTargets="AfterPublish;_CopyFilesToPublishDirectory" Condition="'$(Configuration)' == 'Release'">
+	<Target Name="PublishToModuleDir" AfterTargets="AfterPublish;" Condition="'$(Configuration)' == 'Release'">
 		<PropertyGroup>
 			<WwwrootDir>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot'))</WwwrootDir>
 			<PublishedIndexHtml>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot', 'index.html'))</PublishedIndexHtml>

@@ -1,6 +1,6 @@
 ﻿namespace GameServerManager.Dashboard.Features.Lifecycle.Domain.ValueObjects;
 
-public record SteamGameId
+public sealed record SteamGameId
 {
     public SteamGameId(string steamid, bool hasModdingWorkshop)
     {

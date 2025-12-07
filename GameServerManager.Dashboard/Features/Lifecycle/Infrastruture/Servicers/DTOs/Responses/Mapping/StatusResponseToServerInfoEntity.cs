@@ -20,7 +20,8 @@ public class StatusResponseToServerInfoEntity : ICoreMapHandler<StatusResponse, 
             Port = data.Server?.Port.ToString() ?? "????",
             Name = data.Server?.Name ?? "Unknown",
             LastUpdate = data.Timestamp,
-            GameInfo = alsoMap.Map(data.GameInfo).To<GameInfoEntity>() 
+            GameInfo = alsoMap.Map(data.GameInfo).To<GameInfoEntity>(),
+            SystemInfo = data.Resources != default && data.Resources.Memory != default && data.Resources.Cpu != default && data.Resources.Storage != default ? alsoMap.Map(data.Resources).To<SystemInfoEntity>() : default
         };
     }
 }
