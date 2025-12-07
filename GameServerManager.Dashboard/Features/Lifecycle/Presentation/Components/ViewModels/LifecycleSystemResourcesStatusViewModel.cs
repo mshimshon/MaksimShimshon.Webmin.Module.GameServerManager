@@ -37,7 +37,4 @@ public class LifecycleSystemResourcesStatusViewModel
         _dispatcher = dispatcher;
 
     }
-
-
-
 }

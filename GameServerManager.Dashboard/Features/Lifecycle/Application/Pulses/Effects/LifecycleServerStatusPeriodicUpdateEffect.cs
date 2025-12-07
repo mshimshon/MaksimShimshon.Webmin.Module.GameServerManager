@@ -23,7 +23,7 @@ public class LifecycleServerStatusPeriodicUpdateEffect : IEffect<TickerPerformer
         _medihater = medihater;
     }
     public async Task EffectAsync(TickerPerformerAction action, IDispatcher dispatcher) {
-        DateTime nextUpdated = _stateAccessor.State.ServerInfoLastUpdate.AddSeconds(10);
+        DateTime nextUpdated = _stateAccessor.State.ServerInfoLastUpdate.AddSeconds(_stateAccessor.State.Delay);
 
         if (nextUpdated > DateTime.UtcNow)
         {

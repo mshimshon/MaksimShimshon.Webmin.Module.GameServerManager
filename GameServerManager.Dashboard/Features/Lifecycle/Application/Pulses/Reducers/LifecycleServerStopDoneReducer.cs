@@ -10,7 +10,9 @@ public class LifecycleServerStopDoneReducer : IReducer<LifecycleServerState, Lif
     {
         return await Task.FromResult(state with
         {
-            SkipNextUpdates = 4
+            //SkipNextUpdates = 4
+            Transition = Application.Pulses.Stores.Enums.ServerTransition.Stopping,
+            Delay = 2
         });
     }
 }

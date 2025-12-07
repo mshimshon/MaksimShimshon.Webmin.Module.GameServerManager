@@ -55,7 +55,7 @@ public class LifecyclePageViewModel
     public bool IsStopped() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Stopped;
     public bool IsRestarting() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Running;
     public bool IsFailed() => ServerState.ServerInfo != default && ServerState.ServerInfo.Status == Domain.Enums.Status.Failed;
-    public bool IsWaiting() => ServerState.ServerInfo == default || ServerState.ServerInfo.Status == Domain.Enums.Status.Unknown || ServerState.SkipNextUpdates > 0 ;
+    public bool IsWaiting() => ServerState.ServerInfo == default || ServerState.ServerInfo.Status == Domain.Enums.Status.Unknown;
 
 
     public async Task StartListening()
