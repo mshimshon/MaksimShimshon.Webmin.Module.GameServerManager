@@ -12,4 +12,5 @@ public sealed record GameInfoEntity
     public SystemInfoEntity? SystemInfo { get; init; }
     public bool Modding { get; init; }
     public bool ManualModUpload { get; init; }
+    public ICollection<GameStartupParameterEntity>? StartupParameters { get; init; }
 }

@@ -1,8 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
+using GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Services.DTOs.Responses;
+using System.Text.Json.Serialization;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Servicers.DTOs.Responses;
 
-public record StatusGameInfoResponse
+public record GameInfoResponse
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = default!;
@@ -21,4 +23,8 @@ public record StatusGameInfoResponse
 
     [JsonPropertyName("manual_mod_upload")]
     public bool ManualModUpload { get; set; }
+
+    [JsonPropertyName("parameters")]
+    public List<GameStartupParameterResponse>? Parameters { get; init; } = default!;
+
 }
