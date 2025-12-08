@@ -6,4 +6,5 @@ namespace GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Stor
 public record LifecycleGameInfoState : IStateFeature
 {
     public GameInfoEntity? GameInfo { get; init; }
+    public Dictionary<string, string> StartupParameters { get; init; } = new();
 }
