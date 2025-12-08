@@ -5,7 +5,8 @@ public enum StartupParameterType
     String,
     Bool,
     List,
-    Number,
+    Int,
+    Decimal,
     Void,
     ByteSize
 }

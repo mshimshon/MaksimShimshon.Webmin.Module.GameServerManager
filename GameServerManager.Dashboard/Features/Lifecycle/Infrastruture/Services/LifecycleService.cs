@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using StatePulse.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Servicers;
 
@@ -19,12 +20,17 @@ public class LifecycleService : ILifecycleServices
     private const string _server_Unknown_Error_Msg = "Unknown Error";
     private readonly IWebClient _webClient;
     private readonly ICoreMap _coreMap;
-
+    private readonly JsonSerializerOptions _jsonSerializerConfiguration;
     public Uri BaseAddress { get; set; } = default!;
     public LifecycleService(IWebClient webClient, IWebAssemblyHostEnvironment webAssemblyHostEnvironment, ICoreMap coreMap)
     {
         _webClient = webClient;
         _coreMap = coreMap;
+        _jsonSerializerConfiguration = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+        };
     }
     public Task ServerRestartAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
     public async Task ServerStartAsync(CancellationToken cancellationToken = default)
@@ -49,7 +55,7 @@ public class LifecycleService : ILifecycleServices
         {
             try
             {
-                var serverInfoResponse = await response.Content.ReadFromJsonAsync<StatusResponse>();
+                var serverInfoResponse = await response.Content.ReadFromJsonAsync<StatusResponse>(_jsonSerializerConfiguration);
                 Console.WriteLine($"{nameof(ServerStatusAsync)}: {serverInfoResponse}");
                 if (serverInfoResponse == default)
                     throw new WebServiceException(_read_Server_Response_Error_Msg);

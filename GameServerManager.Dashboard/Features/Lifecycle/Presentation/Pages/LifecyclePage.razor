@@ -21,24 +21,24 @@
                     @if (_viewModel.GameInfoState.GameInfo.SteamInfo != default)
                     {
                         <MudChip T="string" Variant="Variant.Text" Color="Color.Info">@($"Steam: {_viewModel.GameInfoState.GameInfo.SteamInfo.Steamid}")</MudChip>
-
                     }
                     @if (_viewModel.GameInfoState.GameInfo.Modding)
                     {
                         @if (_viewModel.GameInfoState.GameInfo.SteamInfo != default && _viewModel.GameInfoState.GameInfo.SteamInfo.HasModdingWorkshop)
                         {
-                            <MudChip T="string" Variant="Variant.Text" Color="Color.Info">Steam Workshop</MudChip>
+                            <MudChip T="string" Icon=@Icons.Material.Filled.Check Variant="Variant.Text" Color="Color.Info">Steam Workshop</MudChip>
                         }else
                         {
-                            <MudChip T="string" Variant="Variant.Text" Color="Color.Info">Modding</MudChip>
+                            <MudChip T="string" Icon=@Icons.Material.Filled.Check Variant="Variant.Text" Color="Color.Info">Modding</MudChip>
+                            <MudChip T="string" Icon=@Icons.Material.Filled.Stop Variant="Variant.Text" Color="Color.Error">Steam Workshop</MudChip>
                         }
                         @if (_viewModel.GameInfoState.GameInfo.ManualModUpload != default)
                         {
-                            <MudChip T="string" Variant="Variant.Text" Color="Color.Warning">@($"Mod Upload Required")</MudChip>
+                            <MudChip T="string" Icon=@Icons.Material.Filled.Stop Variant="Variant.Text" Color="Color.Warning">@($"Mod Upload Required")</MudChip>
                         }
                         else
                         {
-                            <MudChip T="string" Variant="Variant.Text" Color="Color.Success">@($"Automatic Mod Download")</MudChip>
+                            <MudChip T="string" Icon=@Icons.Material.Filled.Check Variant="Variant.Text" Color="Color.Success">@($"Automatic Mod Download")</MudChip>
                         }
                     }
                 }
@@ -73,6 +73,22 @@
     <MudItem xs=12 sm=12 md=4>
         <MudPaper Class="justify-space-around mud-width-full py-6 px-6">
             <LifecycleSystemResourcesStatus />
+        </MudPaper>
+    </MudItem>
+    <MudItem xs=12 sm=12 md=4>
+        <MudPaper Class="justify-space-around mud-width-full py-6 px-6">
+            @if(_viewModel.GameInfoState.GameInfo != default)
+            {
+                @if (_viewModel.GameInfoState.GameInfo.StartupParameters != default)
+                {
+                    <MudText>@_viewModel.GameInfoState.GameInfo.StartupParameters.Count</MudText>
+                    @foreach (var item in _viewModel.GameInfoState.GameInfo.StartupParameters)
+                    {
+                        <MudText>@item.Key</MudText>
+                        <MudText>@item.Description</MudText>
+                    }
+                }
+            }
         </MudPaper>
     </MudItem>
 </MudGrid>

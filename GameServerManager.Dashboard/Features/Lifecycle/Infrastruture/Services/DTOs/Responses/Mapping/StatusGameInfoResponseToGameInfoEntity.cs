@@ -10,7 +10,7 @@ public class StatusGameInfoResponseToGameInfoEntity : ICoreMapHandler<GameInfoRe
         ManualModUpload = data.ManualModUpload, 
         Modding = data.Modding, 
         Name = data.Name, 
-        SteamInfo = data.Steam && !string.IsNullOrWhiteSpace(data.SteamAppId) ? new SteamGameId(data.SteamAppId, data.Modding && data.Workshop) : default 
-         
+        SteamInfo = data.Steam && !string.IsNullOrWhiteSpace(data.SteamAppId) ? new SteamGameId(data.SteamAppId, data.Modding && data.Workshop) : default,
+        StartupParameters = alsoMap.MapEach(data.Parameters).To<GameStartupParameterEntity>()
     };
 }

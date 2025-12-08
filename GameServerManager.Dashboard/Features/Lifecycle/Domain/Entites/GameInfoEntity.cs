@@ -9,7 +9,6 @@ public sealed record GameInfoEntity
 
     public bool Steam => SteamInfo != default;
     public SteamGameId? SteamInfo { get; init; }
-    public SystemInfoEntity? SystemInfo { get; init; }
     public bool Modding { get; init; }
     public bool ManualModUpload { get; init; }
     public ICollection<GameStartupParameterEntity>? StartupParameters { get; init; }

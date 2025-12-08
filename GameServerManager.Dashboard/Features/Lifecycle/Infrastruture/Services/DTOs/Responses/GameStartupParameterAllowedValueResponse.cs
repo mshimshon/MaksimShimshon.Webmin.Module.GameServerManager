@@ -4,9 +4,6 @@ namespace GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Services.
 
 public record GameStartupParameterAllowedValueResponse
 {
-    [JsonPropertyName("value")]
     public string Value { get; init; } = default!;
-
-    [JsonPropertyName("label")]
     public string Label { get; init; } = default!;
 }

@@ -7,6 +7,5 @@ public enum StartupParameterConstraintType
     GreaterThan,
     GreaterThanOrEqual,
     Equals,
-    NotEquals,
-    ShouldEqual
+    NotEquals
 }

@@ -26,6 +26,7 @@
   <ItemGroup>
     <Folder Include="Features\Backup\" />
     <Folder Include="Features\Configuration\" />
+    <Folder Include="Features\Lifecycle\Infrastruture\Services\DTOs\Responses\Enum\" />
     <Folder Include="Features\Monitoring\Abstractions\" />
     <Folder Include="Features\Monitoring\Applcation\" />
     <Folder Include="Features\Monitoring\Domain\" />

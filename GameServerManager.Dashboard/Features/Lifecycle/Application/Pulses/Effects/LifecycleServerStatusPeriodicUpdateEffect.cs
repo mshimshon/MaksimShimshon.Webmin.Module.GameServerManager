@@ -42,7 +42,9 @@ public class LifecycleServerStatusPeriodicUpdateEffect : IEffect<TickerPerformer
             await dispatcher.Prepare<LifecycleServerGameInfoUpdatedAction>().With(p => p.GameInfo, serverInfo.GameInfo).DispatchAsync();
 
         if (serverInfo.SystemInfo != default  && serverInfo.SystemInfo.Disk != default && serverInfo.SystemInfo.Processor != default && serverInfo.SystemInfo.Memory != default)
-            await dispatcher.Prepare<LifecycleServerSystemInfoUpdatedAction>().With(p => p.SystemInfo, serverInfo.SystemInfo).DispatchAsync();
+            await dispatcher.Prepare<LifecycleServerSystemInfoUpdatedAction>()
+                .With(p => p.SystemInfo, serverInfo.SystemInfo)
+                .DispatchAsync();
 
         var dispatchPrep = dispatcher.Prepare<LifecycleServerStatusUpdateDoneAction>();
         dispatchPrep.With(p => p.ServerInfo, serverInfo);

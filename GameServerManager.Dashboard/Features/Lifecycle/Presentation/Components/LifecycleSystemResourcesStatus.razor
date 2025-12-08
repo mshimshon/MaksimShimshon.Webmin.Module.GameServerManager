@@ -16,17 +16,7 @@ else {
             <MudText Typo=@Typo.h6>@("System Information")</MudText>
             <MudDivider Class="my-2" />
         </MudItem>
-        <MudItem xs=4>
-            <MudProgressCircular Style="height: 80px; width: 80px" Color="Color.Primary" Value=@RamUsage Size="Size.Large">
-                <ChildContent>
-                    <MudStack Spacing="0" AlignItems="AlignItems.Center" Justify="Justify.Center">
-                        <MudText Typo="Typo.subtitle2">RAM</MudText>
-                        <MudText Typo="Typo.subtitle2">@($"{RamUsage}%")</MudText>
-                    </MudStack>
-                </ChildContent>
-            </MudProgressCircular>
-        </MudItem>
-        <MudItem xs=4 Class="align-cen">
+        <MudItem xs=12 Class="d-inline-flex justify-space-evenly">
             <MudProgressCircular Style="height: 80px; width: 80px" Color="Color.Primary" Value=@CpuUsage Size="Size.Large">
                 <ChildContent>
                     <MudStack Spacing="0" AlignItems="AlignItems.Center" Justify="Justify.Center">
@@ -35,10 +25,16 @@ else {
                     </MudStack>
                 </ChildContent>
             </MudProgressCircular>
-        </MudItem>
-        <MudItem xs=4> 
+            <MudProgressCircular Style="height: 80px; width: 80px" Color="Color.Primary" Value=@RamUsage Size="Size.Large">
+                <ChildContent>
+                    <MudStack Spacing="0" AlignItems="AlignItems.Center" Justify="Justify.Center">
+                        <MudText Typo="Typo.subtitle2">RAM</MudText>
+                        <MudText Typo="Typo.subtitle2">@($"{RamUsage}%")</MudText>
+                    </MudStack>
+                </ChildContent>
+            </MudProgressCircular>
             <MudProgressCircular Style="height: 80px; width: 80px" Color="Color.Primary" Value=@DiskUsage Size="Size.Large">
-                <ChildContent >
+                <ChildContent>
                     <MudStack Spacing="0" AlignItems="AlignItems.Center" Justify="Justify.Center">
                         <MudText Typo="Typo.subtitle2">DISK</MudText>
                         <MudText Typo="Typo.subtitle2">@($"{DiskUsage}%")</MudText>
