@@ -1,0 +1,47 @@
+﻿<MudGrid>
+    <MudItem>
+        @if(_viewModel.Parameter.Key.StartupParameterType == Domain.Enums.StartupParameterType.String)
+        {
+            <MudTextField @bind-Value=_viewModel.Value Label=@_viewModel.Parameter.Key.Key 
+                HelperText=@_viewModel.Parameter.Description Variant="Variant.Filled" 
+                MaxLength=@(_viewModel.Parameter.Validation?.MaxLength ?? 524288) 
+                Pattern=@(_viewModel.Parameter.Validation?.PatternValidation ?? default) 
+                Required=@(_viewModel.Parameter.Required) 
+                ReadOnly=@(!_viewModel.Parameter.Editable) />
+        }
+        else if (_viewModel.Parameter.Key.StartupParameterType == Domain.Enums.StartupParameterType.Bool)
+        {
+            <MudCheckBox @bind-Value=_viewModel.Value Color="@Color.Secondary">
+                @_viewModel.Parameter.Key.Key
+            </MudCheckBox>
+            <MudText Typo=@Typo.caption>@_viewModel.Parameter.Description</MudText>
+        }
+        else if (_viewModel.Parameter.Key.StartupParameterType == Domain.Enums.StartupParameterType.ByteSize)
+        {
+
+        }
+        else if (_viewModel.IsNumber)
+        {
+            <MudNumericField @bind-Value=_viewModel.Value Label=@_viewModel.Parameter.Key.Key
+                             HelperText=@_viewModel.Parameter.Description Variant="Variant.Filled"
+                             Min=@(_viewModel.Parameter.Validation?.Min ?? int.MinValue)
+                             Max=@(_viewModel.Parameter.Validation?.Max ?? int.MaxValue)
+                             Step=@(_viewModel.IsDecimal ? 0.01 : 1)
+                             Pattern=@(_viewModel.Parameter.Validation?.PatternValidation ?? default)
+                             Required=@(_viewModel.Parameter.Required)
+                             ReadOnly=@(!_viewModel.Parameter.Editable) />
+        }
+        else if (_viewModel.IsList)
+        {
+            <MudSelect @bind-Value=_viewModel.Value Label=@_viewModel.Parameter.Key.Key
+                       HelperText=@_viewModel.Parameter.Description Variant="Variant.Filled"
+                       Required=@(_viewModel.Parameter.Required)
+                       ReadOnly=@(!_viewModel.Parameter.Editable)>
+                @foreach (var item in _viewModel.Parameter.Validation!.AllowedValues!)
+                {
+                    <MudSelectItem Value=@item.Value>@item.Label</MudSelectItem>
+                }
+            </MudSelect>
+        }
+    </MudItem>
+</MudGrid>
