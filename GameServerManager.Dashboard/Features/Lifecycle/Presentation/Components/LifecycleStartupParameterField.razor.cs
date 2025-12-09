@@ -13,10 +13,11 @@ public partial class LifecycleStartupParameterField : ComponentBase
     
     [Inject] public ISwizzleFactory SwizzleFactory { get; set; } = default!;
 
-    public MudSelect<string> MudSelectRef { get; set; }
-    public MudNumericField<int> MudNumericFieldIntRef { get; set; }
-    public MudNumericField<float> MudNumericFieldDecimalRef { get; set; }
-    public MudTextField<string> MudTextFieldRef { get; set; }
+    public MudSelect<string>? MudSelectRef { get; set; }
+    public MudNumericField<int>? MudNumericFieldIntRef { get; set; }
+    public MudNumericField<double>? MudNumericFieldDecimalRef { get; set; }
+    public MudTextField<string>? MudTextFieldRef { get; set; }
+    public MudSwitch<bool>? MudSwitchRef { get; set; }
 
     private LifecycleStartupParameterFieldViewModel _viewModel = default!;
     protected override async Task OnInitializedAsync()
@@ -31,6 +32,12 @@ public partial class LifecycleStartupParameterField : ComponentBase
     private Task ShouldUpdate() => InvokeAsync(StateHasChanged);
 
     private int GetMaxLength() => _viewModel.Parameter.Validation?.MaxLength ?? 524288;
+
+    public bool IsTouched => MudSelectRef != default && MudSelectRef.Touched ||
+        MudNumericFieldIntRef != default && MudNumericFieldIntRef.Touched ||
+        MudNumericFieldDecimalRef != default && MudNumericFieldDecimalRef.Touched ||
+        MudTextFieldRef != default && MudTextFieldRef.Touched ||
+        MudSwitchRef != default && MudSwitchRef.Touched;
 
     private int ValueInt
     {
