@@ -75,18 +75,13 @@
             <LifecycleSystemResourcesStatus />
         </MudPaper>
     </MudItem>
-    <MudItem xs=12 sm=12 md=4>
-        <MudPaper Class="justify-space-around mud-width-full py-6 px-6">
+    <MudItem xs=12 sm=12 md=8>
+        <MudPaper Class="mud-width-full py-6 px-6">
             @if(_viewModel.GameInfoState.GameInfo != default)
             {
                 @if (_viewModel.GameInfoState.GameInfo.StartupParameters != default)
                 {
-                    <MudText>@_viewModel.GameInfoState.GameInfo.StartupParameters.Count</MudText>
-                    @foreach (var item in _viewModel.GameInfoState.GameInfo.StartupParameters)
-                    {
-                        <MudText>@item.Key</MudText>
-                        <MudText>@item.Description</MudText>
-                    }
+                   <LifecycleStartupParameter  />
                 }
             }
         </MudPaper>

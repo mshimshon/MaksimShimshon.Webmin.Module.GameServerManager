@@ -7,6 +7,4 @@ public enum StartupParameterType
     List,
     Int,
     Decimal,
-    Void,
-    ByteSize
 }

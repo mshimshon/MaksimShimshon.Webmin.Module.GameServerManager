@@ -2,6 +2,8 @@
 {
     <MudGrid>
         <MudItem xs=12>
+            <MudText Typo=@Typo.h6>@("Startup Parameters")</MudText>
+            <MudDivider Class="my-2" />
             <MudAlert Severity=@Severity.Info ContentAlignment=@HorizontalAlignment.Center NoIcon=true>
                 <MudProgressLinear Color="Color.Info" Indeterminate="true" Class="my-1" />
                 <MudText Align=Align.Center>Awaiting System Info...</MudText>
@@ -17,12 +19,19 @@ else
             <MudText Typo=@Typo.h6>@("Startup Parameters")</MudText>
             <MudDivider Class="my-2" />
         </MudItem>
-        <MudItem xs=12 Class="d-inline-flex justify-space-evenly">
+        <MudItem xs=12 Class="d-flex flex-column flex-grow-1 justify-space-evenly">
+            @foreach (var group in _viewModel.Parameters)
+            {
+                <MudDivider Class="my-2" Style="visibility:hidden;" />
 
+                <MudText Typo=@Typo.h6>@(group.Key)</MudText>
+                <MudDivider Class="my-2" />
+                @foreach (var parameter in group.Value)
+                {
+                    <LifecycleStartupParameterField GameStartupParameter=@parameter />
+                    <MudDivider Class="my-1" Style="visibility:hidden;" />
+                }
+            }
         </MudItem>
-        <MudItem xs=12>
-            <MudDivider />
-        </MudItem>
-
     </MudGrid>
 }

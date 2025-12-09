@@ -11,10 +11,8 @@ public class GameStartupParameterResponseToStartupParameter : ICoreMapHandler<Ga
         { 
             "decimal" => StartupParameterType.Decimal,
             "bool" => StartupParameterType.Bool,
-            "bytesize" => StartupParameterType.ByteSize,
             "list" => StartupParameterType.List,
             "string" => StartupParameterType.String,
-            "void" => StartupParameterType.Void,
             _ => StartupParameterType.Int
         });
 }

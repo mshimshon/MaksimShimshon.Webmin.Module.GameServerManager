@@ -17,6 +17,8 @@ public static class LifecyclePresentationServiceExt
     {
         services.AddScoped<LifecyclePageViewModel>();
         services.AddScoped<LifecycleSystemResourcesStatusViewModel>();
+        services.AddScoped<LifecycleStartupParameterViewModel>();
+        services.AddTransient<LifecycleStartupParameterFieldViewModel>();
         services.AddLifecycleInfrastructure();
         return services;
     }
