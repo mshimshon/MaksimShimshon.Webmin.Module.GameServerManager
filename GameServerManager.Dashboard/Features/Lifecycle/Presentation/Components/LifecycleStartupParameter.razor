@@ -19,19 +19,30 @@ else
             <MudText Typo=@Typo.h6>@("Startup Parameters")</MudText>
             <MudDivider Class="my-2" />
         </MudItem>
-        <MudItem xs=12 Class="d-flex flex-column flex-grow-1 justify-space-evenly">
-            @foreach (var group in _viewModel.Parameters)
+        <MudItem xs=12 Class="d-flex flex-row  flex-wrap justify-space-evenly">
+            @if (!_viewModel.GameInfoState.SavedParametersLoaded)
             {
-                <MudDivider Class="my-2" Style="visibility:hidden;" />
-
-                <MudText Typo=@Typo.h6>@(group.Key)</MudText>
-                <MudDivider Class="my-2" />
-                @foreach (var parameter in group.Value)
+                <MudAlert Severity=@Severity.Info ContentAlignment=@HorizontalAlignment.Center NoIcon=true>
+                    <MudProgressLinear Color="Color.Info" Indeterminate="true" Class="my-1" />
+                    <MudText Align=Align.Center>Loading Parameters...</MudText>
+                </MudAlert>
+            }
+            else
+            {
+                @foreach (var group in _viewModel.Parameters)
                 {
-                    <LifecycleStartupParameterField GameStartupParameter=@parameter />
-                    <MudDivider Class="my-1" Style="visibility:hidden;" />
+                    <MudDivider Class="my-2" Style="visibility:hidden;" />
+                    <MudText Typo=@Typo.h6>@(group.Key)</MudText>
+                    <MudDivider Class="my-2" />
+                    @foreach (var parameter in group.Value)
+                    {
+                        <LifecycleStartupParameterField GameStartupParameter=@parameter 
+                                                        InitialValue=@(!_viewModel.GameInfoState.StartupParameters.ContainsKey(parameter.Key.Key) ? parameter.DefaultValue ?? string.Empty : _viewModel.GameInfoState.StartupParameters[parameter.Key.Key]) />
+                        <MudDivider Class="my-2" Style="visibility:hidden;" />
+                    }
                 }
             }
+
         </MudItem>
     </MudGrid>
 }

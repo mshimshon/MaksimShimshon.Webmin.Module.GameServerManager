@@ -3,6 +3,7 @@ using GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
 using Microsoft.AspNetCore.Components;
 using StatePulse.Net;
 using SwizzleV;
+using System.Runtime.CompilerServices;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Presentation.Components.ViewModels;
 
@@ -29,7 +30,7 @@ public class LifecycleStartupParameterFieldViewModel
     public GameStartupParameterEntity Parameter { get; set; } = default!;
 
     public string Value { get; set; } = string.Empty;
-    private bool HasLoaded { get; set; }
+    public string InitialValue { get; set; } = string.Empty;
     public bool HasValidation => Parameter.Validation != default;
     public bool IsList => Parameter.Validation?.AllowedValues != default && 
         Parameter.Key.StartupParameterType == Domain.Enums.StartupParameterType.List;
@@ -38,7 +39,6 @@ public class LifecycleStartupParameterFieldViewModel
     public bool IsNumber => IsDecimal || IsInt;
     private async Task OnStateChanged()
     {
-        CheckInitialValue();
         await _swizzleViewModel.SpreadChanges(() => this);
     }
     public LifecycleStartupParameterFieldViewModel(ISwizzleViewModel swizzleViewModel, IStatePulse statePulse, IDispatcher dispatcher)
@@ -46,17 +46,8 @@ public class LifecycleStartupParameterFieldViewModel
         _swizzleViewModel = swizzleViewModel;
         _statePulse = statePulse;
         _dispatcher = dispatcher;
-        HasLoaded = GameInfoState.SavedParametersLoaded;
-        CheckInitialValue();
     }
 
-    private void CheckInitialValue()
-    {
-        if (HasLoaded != GameInfoState.SavedParametersLoaded && GameInfoState.SavedParametersLoaded)
-        {
-            PullValueFromSavedParameters();
-        }
-    }
 
     private void PullValueFromSavedParameters()
     {
@@ -66,16 +57,15 @@ public class LifecycleStartupParameterFieldViewModel
             Value = GameInfoState.StartupParameters[Parameter.Key.Key];
     }
 
-    public void OnValueChanged(ChangeEventArgs e)
-    {
-
-    }
-
-
-    public void Save()
+    public async Task Save()
     {
 
     }
 
     public void Reset()  => PullValueFromSavedParameters();
+    public bool Validate()
+    {
+
+        return true;
+    }
 }

@@ -7,5 +7,5 @@ public record LifecycleGameInfoState : IStateFeature
 {
     public GameInfoEntity? GameInfo { get; init; }
     public Dictionary<string, string> StartupParameters { get; init; } = new();
-    public bool SavedParametersLoaded { get; init; }
+    public bool SavedParametersLoaded { get; init; } = true; // TODO: REMOVE WHEM IMPLEMENTED THE = true
 }

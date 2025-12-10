@@ -17,6 +17,4 @@ public partial class LifecycleStartupParameter : ComponentBase
         _viewModel = articleVMHook.GetViewModel<LifecycleStartupParameterViewModel>()!;
     }
     private Task ShouldUpdate() => InvokeAsync(StateHasChanged);
-
-
 }
