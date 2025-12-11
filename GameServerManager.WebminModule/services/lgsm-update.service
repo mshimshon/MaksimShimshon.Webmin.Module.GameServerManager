@@ -1,7 +1,0 @@
-[Unit]
-Description=LGSM update script
-
-[Service]
-Type=oneshot
-User=lgsm
-ExecStart=/home/lgsm/blazor_lgsm/update_server_details.sh

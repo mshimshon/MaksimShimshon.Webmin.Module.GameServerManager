@@ -49,7 +49,7 @@
 		<PropertyGroup>
 			<WwwrootDir>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot'))</WwwrootDir>
 			<PublishedIndexHtml>$([System.IO.Path]::Combine('$(PublishDir)', 'wwwroot', 'index.html'))</PublishedIndexHtml>
-			<WebminModuleSourceDir>$([System.IO.Path]::Combine('$(SolutionDir)', 'GameServerManager.WebminModule'))</WebminModuleSourceDir>
+			<WebminModuleSourceDir>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '..', 'GameServerManager.WebminModule'))))</WebminModuleSourceDir>
 			<PublishedFilesToCopy>$([System.IO.Path]::Combine('$(PublishDir)'))</PublishedFilesToCopy>
 
 			<FinalOutput>$([System.IO.Path]::Combine('$(ProjectDir)', 'bin', 'out'))</FinalOutput>
@@ -79,7 +79,7 @@
 
 		<ItemGroup>
 			<PublishedFiles Include="$(PublishDir)**/*" />
-			<WebminModuleSourceFiles Include="$(SolutionDir)/GameServerManager.WebminModule/**/*" />
+			<WebminModuleSourceFiles Include="$(WebminModuleSourceDir)/**/*" />
 		</ItemGroup>
 		
 		<Copy SourceFiles="@(PublishedFiles)" DestinationFolder="$(ModulePublishDir)$([System.IO.Path]::DirectorySeparatorChar)%(RecursiveDir)" />
