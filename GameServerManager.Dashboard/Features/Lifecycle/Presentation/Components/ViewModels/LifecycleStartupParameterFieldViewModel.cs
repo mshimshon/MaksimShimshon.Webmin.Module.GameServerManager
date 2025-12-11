@@ -62,7 +62,11 @@ public class LifecycleStartupParameterFieldViewModel
 
     }
 
-    public void Reset()  => PullValueFromSavedParameters();
+    public void Reset() {
+        Console.WriteLine($"{Value} = {InitialValue}");
+        Value = InitialValue;
+        _ = OnStateChanged();
+    }
     public bool Validate()
     {
 

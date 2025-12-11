@@ -34,12 +34,18 @@ else
                     <MudDivider Class="my-2" Style="visibility:hidden;" />
                     <MudText Typo=@Typo.h6>@(group.Key)</MudText>
                     <MudDivider Class="my-2" />
+                     <MudGrid>
                     @foreach (var parameter in group.Value)
                     {
-                        <LifecycleStartupParameterField GameStartupParameter=@parameter 
-                                                        InitialValue=@(!_viewModel.GameInfoState.StartupParameters.ContainsKey(parameter.Key.Key) ? parameter.DefaultValue ?? string.Empty : _viewModel.GameInfoState.StartupParameters[parameter.Key.Key]) />
-                        <MudDivider Class="my-2" Style="visibility:hidden;" />
+                       
+                            <LifecycleStartupParameterField GameStartupParameter=@parameter
+                                                            InitialValue=@(!_viewModel.GameInfoState.StartupParameters.ContainsKey(parameter.Key.Key) ? parameter.DefaultValue ?? string.Empty : _viewModel.GameInfoState.StartupParameters[parameter.Key.Key]) />
+                            
+                        
+
                     }
+
+                    </MudGrid>
                 }
             }
 

@@ -33,6 +33,8 @@ public partial class LifecycleStartupParameterField : ComponentBase
         _viewModel.Parameter = GameStartupParameter;
         _viewModel.InitialValue = InitialValue;
         _viewModel.Value = InitialValue;
+        Console.WriteLine($"InitialValue = {_viewModel.InitialValue}");
+        Console.WriteLine($"Value = {_viewModel.Value}");
 
     }
     private Task ShouldUpdate() => InvokeAsync(StateHasChanged);
@@ -45,6 +47,7 @@ public partial class LifecycleStartupParameterField : ComponentBase
     {       
         get
         {
+            Console.WriteLine(_viewModel.Value);
             return !string.IsNullOrWhiteSpace(_viewModel.Value) ? int.Parse(_viewModel.Value) : 0;
         }
         set { _viewModel.Value = value.ToString(); }
@@ -57,20 +60,5 @@ public partial class LifecycleStartupParameterField : ComponentBase
             return !string.IsNullOrWhiteSpace(_viewModel.Value) ? double.Parse(_viewModel.Value) : 0;
         }
         set { _viewModel.Value = value.ToString(); }
-    }
-
-    private async Task Save() => await _viewModel.Save();
-    private void Reset()
-    {
-        if (MudSelectRef != default && MudSelectRef.Touched)
-            _ = MudSelectRef.ResetAsync();
-        else if (MudNumericFieldIntRef != default && MudNumericFieldIntRef.Touched)
-            _ = MudNumericFieldIntRef.ResetAsync();
-        else if (MudNumericFieldDecimalRef != default && MudNumericFieldDecimalRef.Touched)
-            _ = MudNumericFieldDecimalRef.ResetAsync();
-        else if (MudTextFieldRef != default && MudTextFieldRef.Touched)
-            _ = MudTextFieldRef.ResetAsync();
-        else if (MudSwitchRef != default && MudSwitchRef.Touched)
-            _ = MudSwitchRef.ResetAsync();
     }
 }

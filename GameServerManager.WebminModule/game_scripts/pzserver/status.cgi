@@ -1,1 +1,0 @@
-OUTPUT=$(/home/lgsm/pzserver details 2>&1)
