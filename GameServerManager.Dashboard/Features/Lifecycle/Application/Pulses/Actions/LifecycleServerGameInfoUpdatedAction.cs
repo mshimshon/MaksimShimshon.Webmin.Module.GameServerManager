@@ -3,7 +3,7 @@ using StatePulse.Net;
 
 namespace GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Actions;
 
-public record LifecycleServerSystemInfoUpdatedAction : IAction
+public record LifecycleServerGameInfoUpdatedAction : IAction
 {
-    public SystemInfoEntity SystemInfo { get; set; } = default!;
+    public GameInfoEntity GameInfo { get; set; } = default!;
 }

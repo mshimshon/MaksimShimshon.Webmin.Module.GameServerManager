@@ -10,7 +10,7 @@
     }
     else if (_viewModel.Parameter.Key.StartupParameterType == Domain.Enums.StartupParameterType.Bool)
     {
-        <MudSwitch @ref=MudSwitchRef @bind-Value=_viewModel.Value Color="Color.Success" UncheckedColor="Color.Error"
+        <MudSwitch @ref=MudSwitchRef @bind-Value=ValueBool Color="Color.Success" UncheckedColor="Color.Error"
                     Label=@_viewModel.Parameter.Key.Key />
         <MudText Typo=@Typo.caption>@_viewModel.Parameter.Description</MudText>
     }

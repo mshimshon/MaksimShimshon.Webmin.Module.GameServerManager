@@ -2,6 +2,7 @@
 using GameServerManager.Dashboard.Features.Lifecycle.Applcation.Services;
 using GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
 using GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Servicers.DTOs.Responses;
+using GameServerManager.Dashboard.Features.Lifecycle.Infrastruture.Services.DTOs.Responses;
 using GameServerManager.Dashboard.Shared.Exceptions;
 using GameServerManager.Dashboard.Shared.Providers.Abstraction;
 using GameServerManager.Dashboard.Shared.Webmin.Infrastruture.Exceptions;
@@ -80,6 +81,47 @@ public class LifecycleService : ILifecycleServices
     public async Task ServerStopAsync(CancellationToken cancellationToken = default)
     {
         var endpoint = new Uri(BaseAddress, "server_stop.cgi");
+        Console.WriteLine(endpoint.ToString());
+        var response = await _webClient.GetAsync(endpoint.ToString());
+        if (response.IsSuccessStatusCode)
+            return;
+        else if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
+            throw new WebminLoginExpiredException(_read_Server_Response_Error_Msg);
+        else if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
+            throw new WebServiceException(_server_Unknown_Error_Msg);
+        throw new WebServiceException(_server_Bad_Request_Error_Msg);
+    }
+
+    public async Task<Dictionary<string, string>> GetServerStartupParametersAsync(CancellationToken cancellationToken = default)
+    {
+        var endpoint = new Uri(BaseAddress, "server_startup_get_parameters.cgi");
+        Console.WriteLine(endpoint.ToString());
+        var response = await _webClient.GetAsync(endpoint.ToString());
+        if (response.IsSuccessStatusCode)
+        {
+            try
+            {
+                var serverInfoResponse = await response.Content.ReadFromJsonAsync<List<GameStartupParameterKeyValueResponse>>(_jsonSerializerConfiguration);
+                if (serverInfoResponse == default) throw new WebServiceException(_read_Server_Response_Error_Msg);
+                return serverInfoResponse.ToDictionary(p=>p.Key, p=>p.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{nameof(ServerStatusAsync)}: {ex.Message}");
+                throw new WebServiceException(_server_Bad_Request_Error_Msg);
+            }
+
+        }
+        else
+            if (response.StatusCode == System.Net.HttpStatusCode.Redirect)
+                throw new WebminLoginExpiredException(_read_Server_Response_Error_Msg);
+        else if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
+            throw new WebServiceException(_server_Unknown_Error_Msg);
+        throw new WebServiceException(_server_Bad_Request_Error_Msg);
+    }
+    public async Task UpdateStartupParameterAsync(string key, string value, CancellationToken cancellationToken = default)
+    {
+        var endpoint = new Uri(BaseAddress, $"server_startup_update_parameter.cgi?key={key}&value={value}");
         Console.WriteLine(endpoint.ToString());
         var response = await _webClient.GetAsync(endpoint.ToString());
         if (response.IsSuccessStatusCode)

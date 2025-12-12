@@ -1,4 +1,5 @@
-﻿using GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Stores;
+﻿using GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Actions;
+using GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Stores;
 using GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
 using Microsoft.AspNetCore.Components;
 using StatePulse.Net;
@@ -48,18 +49,12 @@ public class LifecycleStartupParameterFieldViewModel
         _dispatcher = dispatcher;
     }
 
-
-    private void PullValueFromSavedParameters()
-    {
-        if (!GameInfoState.StartupParameters.ContainsKey(Parameter.Key.Key))
-            Value = Parameter.DefaultValue ?? string.Empty;
-        else
-            Value = GameInfoState.StartupParameters[Parameter.Key.Key];
-    }
-
     public async Task Save()
     {
-
+        await _dispatcher.Prepare<LifecycleUpdateStartupParameterAction>()
+            .With(p => p.Key, Parameter.Key.Key)
+            .With(p => p.Value, Value)
+            .DispatchAsync();
     }
 
     public void Reset() {

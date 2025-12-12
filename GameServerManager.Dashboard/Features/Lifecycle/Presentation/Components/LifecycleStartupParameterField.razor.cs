@@ -19,7 +19,7 @@ public partial class LifecycleStartupParameterField : ComponentBase
     public MudNumericField<int>? MudNumericFieldIntRef { get; set; }
     public MudNumericField<double>? MudNumericFieldDecimalRef { get; set; }
     public MudTextField<string>? MudTextFieldRef { get; set; }
-    public MudSwitch<string>? MudSwitchRef { get; set; }
+    public MudSwitch<bool>? MudSwitchRef { get; set; }
 
     private LifecycleStartupParameterFieldViewModel _viewModel = default!;
     protected override async Task OnInitializedAsync()
@@ -58,6 +58,15 @@ public partial class LifecycleStartupParameterField : ComponentBase
         get
         {
             return !string.IsNullOrWhiteSpace(_viewModel.Value) ? double.Parse(_viewModel.Value) : 0;
+        }
+        set { _viewModel.Value = value.ToString(); }
+    }
+
+    private bool ValueBool
+    {
+        get
+        {
+            return !string.IsNullOrWhiteSpace(_viewModel.Value) ? bool.Parse(_viewModel.Value) : false;
         }
         set { _viewModel.Value = value.ToString(); }
     }
