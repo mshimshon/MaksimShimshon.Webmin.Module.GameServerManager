@@ -2,6 +2,8 @@
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
   </Folder>
-  <Project Path="GameServerManager.Dashboard.MockAPI/GameServerManager.Dashboard.MockAPI.csproj" Id="7c66a44c-4bb6-4bd0-9e1b-838b99a107a9" />
-  <Project Path="GameServerManager.Dashboard/GameServerManager.Dashboard.csproj" />
+  <Project Path="GameServerManager.Core.Abstractions/GameServerManager.Core.Abstractions.csproj" Id="6a83c044-10e3-4a0e-aa07-5b364d0fd621" />
+  <Project Path="GameServerManager.Core/GameServerManager.Core.csproj" Id="6fc186c2-71ac-40bb-a3e8-ce045e2b8ee1" />
+  <Project Path="GameServerManager.Features.Lifecycle/GameServerManager.Features.Lifecycle.csproj" Id="48460d9a-f45f-4703-81a5-455fda01180a" />
+  <Project Path="GameServerManager.Skeleton/GameServerManager.Skeleton.csproj" Id="4394a226-c0dd-4568-9633-960a2c976985" />
 </Solution>

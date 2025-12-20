@@ -40,10 +40,6 @@ dotnet publish GameServerManager.Dashboard/GameServerManager.Dashboard.csproj -c
 plink -batch $LGSM_STAGE_USER@$LGSM_STAGE_IP -pw "$LGSM_STAGE_USER_PASS" "mkdir -p /home/lgsm/blazor_lgsm"
 plink -batch $LGSM_STAGE_USER@$LGSM_STAGE_IP -pw "$LGSM_STAGE_USER_PASS" "chown lgsm:lgsm /home/lgsm/blazor_lgsm"
 plink -batch $LGSM_STAGE_USER@$LGSM_STAGE_IP -pw "$LGSM_STAGE_USER_PASS" "chmod 0755 -R /home/lgsm/blazor_lgsm"
-plink -batch $LGSM_STAGE_USER@$LGSM_STAGE_IP -pw "$LGSM_STAGE_USER_PASS" "mkdir -p /usr/share/webmin/blazor_lgsm/wwwroot"
-plink -batch $LGSM_STAGE_USER@$LGSM_STAGE_IP -pw "$LGSM_STAGE_USER_PASS" "chmod 0755 -R /usr/share/webmin/blazor_lgsm"
-plink -batch $LGSM_STAGE_USER@$LGSM_STAGE_IP -pw "$LGSM_STAGE_USER_PASS" "rm -R /usr/share/webmin/blazor_lgsm/wwwroot/*"
-
 plink -batch $LGSM_STAGE_USER@$LGSM_STAGE_IP -pw "$LGSM_STAGE_USER_PASS" "mkdir -p /tmp"
 
 $wbmFile = Get-ChildItem "GameServerManager.Dashboard/bin/out" -Filter "blazor_lgsm-*.wbm.gz" | Select-Object -First 1
