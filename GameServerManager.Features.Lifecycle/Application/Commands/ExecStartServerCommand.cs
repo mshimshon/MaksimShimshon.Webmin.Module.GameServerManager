@@ -1,5 +1,4 @@
-﻿using GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
-using MedihatR;
+﻿using MedihatR;
 
 namespace GameServerManager.Features.Lifecycle.Application.Commands;
 

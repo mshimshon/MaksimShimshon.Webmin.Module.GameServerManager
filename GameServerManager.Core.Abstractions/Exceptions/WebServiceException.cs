@@ -1,4 +1,4 @@
-﻿namespace GameServerManager.Core.Shared.Exceptions;
+﻿namespace GameServerManager.Core.Abstractions.Exceptions;
 
 public class WebServiceException : Exception
 {

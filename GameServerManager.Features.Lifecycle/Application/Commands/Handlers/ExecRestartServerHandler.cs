@@ -1,8 +1,6 @@
-﻿using GameServerManager.Dashboard.Features.Lifecycle.Domain.Entites;
-using GameServerManager.Dashboard.Shared.Exceptions;
-using GameServerManager.Dashboard.Shared.Notification.Abstraction.Pulses.Actions;
-using GameServerManager.Dashboard.Shared.Notification.Abstraction.Pulses.Enums;
-using GameServerManager.Features.Lifecycle.Application.Commands;
+﻿using GameServerManager.Core.Abstractions.Exceptions;
+using GameServerManager.Core.Abstractions.Notification.Pulses.Actions;
+using GameServerManager.Core.Abstractions.Notification.Pulses.Enums;
 using GameServerManager.Features.Lifecycle.Application.Services;
 using MedihatR;
 using StatePulse.Net;
