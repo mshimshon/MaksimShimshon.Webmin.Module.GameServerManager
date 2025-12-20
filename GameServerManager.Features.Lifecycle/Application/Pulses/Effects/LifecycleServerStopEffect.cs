@@ -1,4 +1,4 @@
-﻿using GameServerManager.Dashboard.Features.Lifecycle.Applcation.Commands;
+﻿using GameServerManager.Features.Lifecycle.Application.Commands;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Actions;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Stores;
 using MedihatR;

@@ -10,8 +10,8 @@ public class LifecycleServerStartDoneReducer : IReducer<LifecycleServerState, Li
     public async Task<LifecycleServerState> ReduceAsync(LifecycleServerState state, LifecycleServerStartDoneAction action) {
         return await Task.FromResult(state with
         {
-             //SkipNextUpdates = 4
-              Transition = ServerTransition.Starting, 
+            //SkipNextUpdates = 4
+            Transition = ServerTransition.Starting, 
             Delay = 2
         });
     }

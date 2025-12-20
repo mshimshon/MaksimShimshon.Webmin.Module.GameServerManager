@@ -1,6 +1,8 @@
-﻿using GameServerManager.Core.Abstractions.Exceptions;
+﻿using GameServerManager.Core.Abstractions.Event;
+using GameServerManager.Core.Abstractions.Exceptions;
 using GameServerManager.Core.Abstractions.Notification.Pulses.Actions;
 using GameServerManager.Core.Abstractions.Notification.Pulses.Enums;
+using GameServerManager.Features.Lifecycle.Application.Events;
 using GameServerManager.Features.Lifecycle.Application.Services;
 using MedihatR;
 using StatePulse.Net;
@@ -11,16 +13,19 @@ public class ExecStopServerHandler : IRequestHandler<ExecStopServerCommand>
 {
     private readonly ILifecycleServices _lifecycleServices;
     private readonly IDispatcher _dispatcher;
+    private readonly IEventBus _eventBus;
 
-    public ExecStopServerHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher)
+    public ExecStopServerHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher, IEventBus eventBus)
     {
         _lifecycleServices = lifecycleServices;
         _dispatcher = dispatcher;
+        _eventBus = eventBus;
     }
     public async Task Handle(ExecStopServerCommand request, CancellationToken cancellationToken)
     {
         try
         {
+            await _eventBus.PublishAsync(new LifecycleEventMessageNoData(LifecycleEvents.ServerStopBegin));
             await _lifecycleServices.ServerStopAsync();
         }
         catch(WebServiceException ex)
@@ -29,13 +34,15 @@ public class ExecStopServerHandler : IRequestHandler<ExecStopServerCommand>
                 .With(p => p.Message, ex.Message)
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
+            await _eventBus.PublishAsync(new LifecycleEventMessage(LifecycleEvents.ServerStopFailed, ex));
         }
-        catch
+        catch (Exception ex)
         {
             await _dispatcher.Prepare<SendToastNotificationAction>()
                 .With(p => p.Message, "Unknown Error, Please contact admins if persistent.")
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
+            await _eventBus.PublishAsync(new LifecycleEventMessage(LifecycleEvents.ServerStopFailed, ex));
         }
 
     }

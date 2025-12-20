@@ -11,5 +11,22 @@ public enum LifecycleEvents
     ServerStartSuccess,
     ServerStartFinish,
 
-    ServerStatusChanged
+    ServerStatusChanged,
+
+    ServerRestartBegin,
+    ServerRestartFailed,
+    ServerRestartSuccess,
+    ServerRestartFinish,
+
+    ServerStopBegin,
+    ServerStopFailed,
+    ServerStopSuccess,
+    ServerStopFinish,
+
+    UpdateStartupParametersBegin,
+    UpdateStartupParametersFailed,
+    UpdateStartupParametersSuccess,
+    UpdateStartupParametersFinish,
+
+    GameInfoUpdated
 }

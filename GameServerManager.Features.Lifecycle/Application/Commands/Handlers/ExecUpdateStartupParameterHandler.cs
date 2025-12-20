@@ -1,6 +1,8 @@
-﻿using GameServerManager.Core.Abstractions.Exceptions;
+﻿using GameServerManager.Core.Abstractions.Event;
+using GameServerManager.Core.Abstractions.Exceptions;
 using GameServerManager.Core.Abstractions.Notification.Pulses.Actions;
 using GameServerManager.Core.Abstractions.Notification.Pulses.Enums;
+using GameServerManager.Features.Lifecycle.Application.Events;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Actions;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Stores;
 using GameServerManager.Features.Lifecycle.Application.Services;
@@ -13,17 +15,21 @@ public class ExecUpdateStartupParameterHandler : IRequestHandler<ExecUpdateStart
     private readonly ILifecycleServices _lifecycleServices;
     private readonly IDispatcher _dispatcher;
     private readonly IStateAccessor<LifecycleGameInfoState> _gameinfoStateAccessor;
+    private readonly IEventBus _eventBus;
 
-    public ExecUpdateStartupParameterHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher, IStateAccessor<LifecycleGameInfoState> gameinfoStateAccessor)
+    public ExecUpdateStartupParameterHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher, IStateAccessor<LifecycleGameInfoState> gameinfoStateAccessor, IEventBus eventBus)
     {
         _lifecycleServices = lifecycleServices;
         _dispatcher = dispatcher;
         _gameinfoStateAccessor = gameinfoStateAccessor;
+        _eventBus = eventBus;
     }
+
     public async Task Handle(ExecUpdateStartupParameterCommand request, CancellationToken cancellationToken) 
        {
         try
         {
+            await _eventBus.PublishAsync(new LifecycleEventMessageNoData(LifecycleEvents.UpdateStartupParametersBegin));
             await _lifecycleServices.UpdateStartupParameterAsync(request.Key, request.Value, cancellationToken);
 
             if (_gameinfoStateAccessor.State.StartupParameters.ContainsKey(request.Key))
@@ -41,13 +47,15 @@ public class ExecUpdateStartupParameterHandler : IRequestHandler<ExecUpdateStart
                 .With(p => p.Message, ex.Message)
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
+            await _eventBus.PublishAsync(new LifecycleEventMessage(LifecycleEvents.UpdateStartupParametersFailed, ex));
         }
-        catch
+        catch(Exception ex)
         {
             await _dispatcher.Prepare<SendToastNotificationAction>()
                 .With(p => p.Message, "Unknown Error, Please contact admins if persistent.")
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
+            await _eventBus.PublishAsync(new LifecycleEventMessage(LifecycleEvents.UpdateStartupParametersFailed, ex));
         }
     }
 }

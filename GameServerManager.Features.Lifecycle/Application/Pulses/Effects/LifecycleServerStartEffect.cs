@@ -1,4 +1,4 @@
-﻿using GameServerManager.Dashboard.Features.Lifecycle.Applcation.Commands;
+﻿using GameServerManager.Features.Lifecycle.Application.Commands;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Actions;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Stores;
 using MedihatR;
@@ -20,6 +20,7 @@ public class LifecycleServerStartEffect : IEffect<LifecycleServerStartAction>
     {
         Console.WriteLine("Server Launch has been dispatched.");
         var exec = new ExecStartServerCommand();
+
         await _medihater.Send(exec);
 
         var dispatchPrep = dispatcher.Prepare<LifecycleServerStartDoneAction>();

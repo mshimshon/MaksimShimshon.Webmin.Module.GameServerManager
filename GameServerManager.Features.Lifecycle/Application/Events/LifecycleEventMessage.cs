@@ -6,15 +6,8 @@ using System.Text;
 
 namespace GameServerManager.Features.Lifecycle.Application.Events;
 
-public class LifecycleEventMessage<TData> : LifecycleEventMessageBase, IEventBusMessage
+public class LifecycleEventMessage : Core.Abstractions.Event.EventMessage
 {
-    protected TData Data { get; }
-    protected LifecycleEvents EventType { get; }
-    public LifecycleEventMessage(LifecycleEvents eventType, TData data)
-    {
-        EventType = eventType;
-        Data = data;
-    }
-    public object GetData() => Data!;
-    public string GetEventId() => $"{EventBaseId}.{EventType}";
+    public LifecycleEventMessage(LifecycleEvents eventType, object data) : base(eventType.ToString(), data){}
+    public LifecycleEventMessage(string baseEventIdTarget, LifecycleEvents eventType, object data) : base(baseEventIdTarget, eventType.ToString(), data){ }
 }

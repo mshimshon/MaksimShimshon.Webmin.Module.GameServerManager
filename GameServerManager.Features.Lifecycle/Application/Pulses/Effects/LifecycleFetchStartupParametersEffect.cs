@@ -1,30 +1,40 @@
-﻿using GameServerManager.Dashboard.Features.Lifecycle.Applcation.Pulses.Stores;
-using GameServerManager.Dashboard.Features.Lifecycle.Applcation.Queries;
-using GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Actions;
-using GameServerManager.Dashboard.Features.Lifecycle.Application.Queries;
+﻿using GameServerManager.Core.Abstractions.Event;
+using GameServerManager.Features.Lifecycle.Application.Events;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Actions;
+using GameServerManager.Features.Lifecycle.Application.Queries;
 using MedihatR;
 using StatePulse.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GameServerManager.Features.Lifecycle.Application.Pulses.Effects;
 
 public class LifecycleFetchStartupParametersEffect : IEffect<LifecycleFetchStartupParametersAction>
 {
     private readonly IMedihater _medihater;
+    private readonly IEventBus _eventBus;
 
-    public LifecycleFetchStartupParametersEffect(IMedihater medihater)
+    public LifecycleFetchStartupParametersEffect(IMedihater medihater, IEventBus eventBus)
     {
         _medihater = medihater;
+        _eventBus = eventBus;
     }
     public async Task EffectAsync(LifecycleFetchStartupParametersAction action, IDispatcher dispatcher)
     {
 
         var exec = new GetStartupParametersQuery();
-        var data = await _medihater.Send(exec);
+        Dictionary<string, string>? data = default;
+        try
+        {
+            data = await _medihater.Send(exec);
+        }
+        finally
+        {
+            var dispatchPrep = dispatcher.Prepare<LifecycleFetchStartupParametersDoneAction>();
+            dispatchPrep.With(p => p.StartupParameters, data);
+            await dispatchPrep.DispatchAsync();
+        }
+        
 
 
-        var dispatchPrep = dispatcher.Prepare<LifecycleFetchStartupParametersDoneAction>();
-        dispatchPrep.With(p => p.StartupParameters, data);
-        await dispatchPrep.DispatchAsync();
     }
 }

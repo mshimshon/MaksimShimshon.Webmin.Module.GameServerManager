@@ -2,17 +2,13 @@
 using MudBlazor;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace GameServerManager.Features.Lifecycle.Application.Events;
 
-public class LifecycleEventMessageNoData : LifecycleEventMessageBase, IEventBusMessage
+public class LifecycleEventMessageNoData : Core.Abstractions.Event.EventMessageNoData
 {
-    protected LifecycleEvents EventType { get; }
-    public LifecycleEventMessageNoData(LifecycleEvents eventType)
-    {
-        EventType = eventType;
-    }
-    public object? GetData() => default;
-    public string GetEventId() => $"{EventBaseId}.{EventType}";
+    public LifecycleEventMessageNoData(LifecycleEvents eventType) : base(eventType.ToString()) { }
+    public LifecycleEventMessageNoData(string baseEventId, LifecycleEvents eventType) : base(baseEventId, eventType.ToString()) { }
 }

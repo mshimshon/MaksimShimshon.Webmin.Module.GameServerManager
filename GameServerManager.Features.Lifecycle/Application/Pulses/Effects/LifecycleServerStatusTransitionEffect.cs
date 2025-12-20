@@ -1,6 +1,4 @@
-﻿using GameServerManager.Dashboard.Features.Lifecycle.Application.Pulses.Stores;
-using GameServerManager.Dashboard.Shared.Ticker.Pulses.Actions;
-using GameServerManager.Features.Lifecycle.Application.Pulses.Actions;
+﻿using GameServerManager.Features.Lifecycle.Application.Pulses.Actions;
 using GameServerManager.Features.Lifecycle.Application.Pulses.Stores;
 using MedihatR;
 using StatePulse.Net;

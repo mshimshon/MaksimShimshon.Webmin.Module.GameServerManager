@@ -34,7 +34,7 @@ public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand>
                 .With(p => p.Message, ex.Message)
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
-            await _eventBus.PublishAsync(new LifecycleEventMessage<WebServiceException>(LifecycleEvents.ServerStartFailed, ex));
+            await _eventBus.PublishAsync(new LifecycleEventMessage(LifecycleEvents.ServerStartFailed, ex));
 
         }
         catch (Exception ex)
@@ -43,7 +43,7 @@ public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand>
                 .With(p => p.Message, "Unknown Error, Please contact admins if persistent.")
                 .With(p => p.Color, ToastColor.Error)
                 .DispatchAsync();
-            await _eventBus.PublishAsync(new LifecycleEventMessage<Exception>(LifecycleEvents.ServerStartFailed, ex));
+            await _eventBus.PublishAsync(new LifecycleEventMessage(LifecycleEvents.ServerStartFailed, ex));
 
         }
 
