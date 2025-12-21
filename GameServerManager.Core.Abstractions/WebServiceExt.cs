@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace GameServerManager.Core.Shared.Extensions;
+namespace GameServerManager.Core.Abstractions;
 
 public static class WebServiceExt
 {

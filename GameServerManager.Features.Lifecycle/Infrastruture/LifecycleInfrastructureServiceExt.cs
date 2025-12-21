@@ -1,4 +1,5 @@
-﻿using GameServerManager.Core.Shared.Extensions;
+﻿using GameServerManager.Core.Abstractions;
+using GameServerManager.Features.Lifecycle.Application;
 using GameServerManager.Features.Lifecycle.Application.Services;
 using GameServerManager.Features.Lifecycle.Infrastruture.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,7 @@ public static class LifecycleInfrastructureServiceExt
             var baseUrl = new Uri("");
             configure.BaseAddress = new Uri(baseUrl, "scripts/lifecycle/");
         });
-
+        services.AddLifecycleApplication();
 
         return services;
     }

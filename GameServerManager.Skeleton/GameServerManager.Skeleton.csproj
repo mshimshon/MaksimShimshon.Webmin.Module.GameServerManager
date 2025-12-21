@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameServerManager.Core\GameServerManager.Core.csproj" />
+    <ProjectReference Include="..\GameServerManager.Engine\GameServerManager.Engine.csproj" />
     <ProjectReference Include="..\GameServerManager.Features.Lifecycle\GameServerManager.Features.Lifecycle.csproj" />
   </ItemGroup>
 

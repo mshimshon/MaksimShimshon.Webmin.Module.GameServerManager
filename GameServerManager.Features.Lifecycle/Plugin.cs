@@ -27,4 +27,6 @@ public class Plugin : IPlugin<Plugin>, IPluginMetadata<Plugin>
         services.AddLifecyclePresentation();
     }
     public void ThisIsHost(IHost host) { }
+
+    public void Unload() => throw new NotImplementedException();
 }

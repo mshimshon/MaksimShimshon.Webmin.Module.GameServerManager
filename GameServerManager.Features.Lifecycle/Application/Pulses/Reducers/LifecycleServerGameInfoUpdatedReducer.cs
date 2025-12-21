@@ -8,9 +8,9 @@ namespace GameServerManager.Features.Lifecycle.Application.Pulses.Reducers;
 
 public class LifecycleServerGameInfoUpdatedReducer : IReducer<LifecycleGameInfoState, LifecycleServerGameInfoUpdatedAction>
 {
-    private readonly IEventBus _eventBus;
+    private readonly IPluginEventBus _eventBus;
 
-    public LifecycleServerGameInfoUpdatedReducer(IEventBus eventBus)
+    public LifecycleServerGameInfoUpdatedReducer(IPluginEventBus eventBus)
     {
         _eventBus = eventBus;
     }

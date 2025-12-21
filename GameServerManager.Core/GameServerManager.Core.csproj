@@ -17,7 +17,7 @@
     <PackageReference Include="MediHater" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
     <PackageReference Include="MudBlazor" Version="8.15.0" />
-    <PackageReference Include="StatePulse.Net" Version="1.1.0" />
+    <PackageReference Include="StatePulse.Net" Version="2.0.0" />
     <PackageReference Include="SwizzleV" Version="1.0.0" />
   </ItemGroup>
 

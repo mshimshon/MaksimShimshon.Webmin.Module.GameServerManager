@@ -1,7 +1,8 @@
 ﻿namespace GameServerManager.Core.Abstractions.Event;
 
-public interface IEventBusMessage
+public interface IPluginEventBusMessage
 {
     string GetEventId();
     object? GetData();
+
 }

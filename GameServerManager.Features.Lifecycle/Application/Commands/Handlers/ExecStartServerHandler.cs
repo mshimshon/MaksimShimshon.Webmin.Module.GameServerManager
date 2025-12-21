@@ -13,9 +13,9 @@ public class ExecStartServerHandler : IRequestHandler<ExecStartServerCommand>
 {
     private readonly ILifecycleServices _lifecycleServices;
     private readonly IDispatcher _dispatcher;
-    private readonly IEventBus _eventBus;
+    private readonly IPluginEventBus _eventBus;
 
-    public ExecStartServerHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher, IEventBus eventBus)
+    public ExecStartServerHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher, IPluginEventBus eventBus)
     {
         _lifecycleServices = lifecycleServices;
         _dispatcher = dispatcher;

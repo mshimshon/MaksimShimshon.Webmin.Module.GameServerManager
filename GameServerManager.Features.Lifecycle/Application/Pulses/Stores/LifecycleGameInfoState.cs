@@ -3,7 +3,7 @@ using StatePulse.Net;
 
 namespace GameServerManager.Features.Lifecycle.Application.Pulses.Stores;
 
-public record LifecycleGameInfoState : IStateFeature
+public record LifecycleGameInfoState : IStateFeatureSingleton
 {
     public GameInfoEntity? GameInfo { get; init; }
     public Dictionary<string, string> StartupParameters { get; init; } = new();

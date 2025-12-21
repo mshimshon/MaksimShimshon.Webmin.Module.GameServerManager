@@ -11,9 +11,9 @@ namespace GameServerManager.Features.Lifecycle.Application.Pulses.Effects;
 public class LifecycleFetchStartupParametersEffect : IEffect<LifecycleFetchStartupParametersAction>
 {
     private readonly IMedihater _medihater;
-    private readonly IEventBus _eventBus;
+    private readonly IPluginEventBus _eventBus;
 
-    public LifecycleFetchStartupParametersEffect(IMedihater medihater, IEventBus eventBus)
+    public LifecycleFetchStartupParametersEffect(IMedihater medihater, IPluginEventBus eventBus)
     {
         _medihater = medihater;
         _eventBus = eventBus;

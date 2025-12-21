@@ -15,4 +15,5 @@ public interface IPlugin<TEntry>
     void ConfigureEndpoints(IEndpointRouteBuilder routeBuilder);
     void ConfigureWebHost(IHostBuilder host);
     void ThisIsHost(IHost host);
+    void Unload();
 }

@@ -5,7 +5,7 @@ using StatePulse.Net;
 
 namespace GameServerManager.Features.Lifecycle.Application.Pulses.Stores;
 
-public record LifecycleServerState : IStateFeature
+public record LifecycleServerState : IStateFeatureSingleton
 {
     public ServerInfoEntity? ServerInfo { get; init; }
     public ServerTransition Transition { get; init; } = ServerTransition.Idle;

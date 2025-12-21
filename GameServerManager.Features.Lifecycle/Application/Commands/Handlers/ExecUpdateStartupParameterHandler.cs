@@ -15,9 +15,9 @@ public class ExecUpdateStartupParameterHandler : IRequestHandler<ExecUpdateStart
     private readonly ILifecycleServices _lifecycleServices;
     private readonly IDispatcher _dispatcher;
     private readonly IStateAccessor<LifecycleGameInfoState> _gameinfoStateAccessor;
-    private readonly IEventBus _eventBus;
+    private readonly IPluginEventBus _eventBus;
 
-    public ExecUpdateStartupParameterHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher, IStateAccessor<LifecycleGameInfoState> gameinfoStateAccessor, IEventBus eventBus)
+    public ExecUpdateStartupParameterHandler(ILifecycleServices lifecycleServices, IDispatcher dispatcher, IStateAccessor<LifecycleGameInfoState> gameinfoStateAccessor, IPluginEventBus eventBus)
     {
         _lifecycleServices = lifecycleServices;
         _dispatcher = dispatcher;

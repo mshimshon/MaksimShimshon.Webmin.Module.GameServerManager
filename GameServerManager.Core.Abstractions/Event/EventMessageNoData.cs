@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameServerManager.Core.Abstractions.Event;
 
-public abstract class EventMessageNoData : IEventBusMessage
+public abstract class EventMessageNoData : IPluginEventBusMessage
 {
     protected string EventBaseId { get; }
     protected string EventType { get; }
