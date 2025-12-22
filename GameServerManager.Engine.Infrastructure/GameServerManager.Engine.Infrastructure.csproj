@@ -13,12 +13,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
-    <PackageReference Include="StatePulse.Net" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameServerManager.Core.Abstractions\GameServerManager.Core.Abstractions.csproj" />
-    <ProjectReference Include="..\GameServerManager.Core\GameServerManager.Core.csproj" />
+    <ProjectReference Include="..\GameServerManager.Engine.Application\GameServerManager.Engine.Application.csproj" />
   </ItemGroup>
 
 </Project>

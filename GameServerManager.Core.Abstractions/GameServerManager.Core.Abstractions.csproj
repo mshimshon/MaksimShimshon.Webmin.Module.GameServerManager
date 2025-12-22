@@ -13,13 +13,12 @@
 
   <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.1" />
-	  <PackageReference Include="StatePulse.Net.Abstractions" Version="2.0.0" />
+	  <PackageReference Include="StatePulse.Net.Abstractions" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Dashboard\MainLayout\Pulses\States\" />
     <Folder Include="Dashboard\Pulses\" />
-    <Folder Include="Event\" />
   </ItemGroup>
 
 </Project>

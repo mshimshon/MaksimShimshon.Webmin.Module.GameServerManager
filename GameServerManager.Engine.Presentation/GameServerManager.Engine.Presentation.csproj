@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	  <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+<ItemGroup>
+	<PackageReference Include="DotNetCore.CAP" Version="10.0.0" />
+	<PackageReference Include="DotNetCore.CAP.Dashboard" Version="10.0.0" />
+	<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="10.0.0" />
+	<PackageReference Include="DotNetCore.CAP.NATS" Version="10.0.0" />
+	<PackageReference Include="DotNetCore.CAP.OpenTelemetry" Version="10.0.0" />
+	<PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0" />
+	<PackageReference Include="StatePulse.Net" Version="2.0.1" />
+  </ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\GameServerManager.Engine.Application\GameServerManager.Engine.Application.csproj" />
+  <ProjectReference Include="..\GameServerManager.Plugin.Core\GameServerManager.Plugin.Core.csproj" />
+</ItemGroup>
+
+</Project>

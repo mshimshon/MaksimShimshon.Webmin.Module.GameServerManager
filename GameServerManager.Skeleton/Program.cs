@@ -1,5 +1,7 @@
 using GameServerManager.Core;
 using GameServerManager.Core.Abstractions.Plugin;
+using GameServerManager.Engine;
+using GameServerManager.Engine.Services;
 using GameServerManager.Features.Lifecycle;
 using GameServerManager.Features.Lifecycle.Presentation;
 
@@ -15,6 +17,7 @@ builder.Services.AddCoreServices([
      typeof(GameServerManager.Features.Lifecycle._Imports)
     ] );
 
+builder.Services.AddEngineServices();
 // TODO: USE PLUGIN DISCOVERY
 
 Plugin lifecyclePlugin = new Plugin();
@@ -57,7 +60,9 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>()
+app.MapRazorComponents<GameServerManager.Engine.App>()
     .AddInteractiveServerRenderMode();
+
+app.StartTicker(new TimeOnly(0,0,1));
 
 app.Run();
