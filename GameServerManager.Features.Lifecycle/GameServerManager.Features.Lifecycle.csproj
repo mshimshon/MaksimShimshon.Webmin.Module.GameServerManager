@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameServerManager.Core.Abstractions\GameServerManager.Core.Abstractions.csproj" />
+    <ProjectReference Include="..\GameServerManager.Core\GameServerManager.Core.csproj" />
   </ItemGroup>
 
 </Project>

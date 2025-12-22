@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Dashboard\MainLayout\Pulses\States\" />
     <Folder Include="Dashboard\Pulses\" />
+    <Folder Include="Event\" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,12 @@
-﻿namespace GameServerManager.Core.Abstractions.Event;
+﻿namespace GameServerManager.Core.Abstractions.Plugin;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public sealed class EventBusIdAttribute : Attribute
+public sealed class PluginEventBusIdAttribute : Attribute
 {
     public string EventId { get; }
     public bool IsSingleton { get; set; } = false;
 
-    public EventBusIdAttribute(string eventId)
+    public PluginEventBusIdAttribute(string eventId)
     {
         EventId = eventId;
     }

@@ -1,4 +1,4 @@
-﻿using GameServerManager.Core.Abstractions.Event;
+﻿using GameServerManager.Core.Abstractions.Plugin;
 using GameServerManager.Core.Providers.Infrastructure.Services;
 using GameServerManager.Core.Shared.Providers.Abstraction;
 using GameServerManager.Core.Shared.Providers.Application;
@@ -14,7 +14,7 @@ public static class ProviderInfrastructureServiceExt
         services.AddScoped<IWebClient, Webclient>();
         services.AddHttpClient<IWebClient, Webclient>();
         services.AddProviderApplication();
-        services.AddSingleton<IPluginEventBus, PluginEventBusEngine>();
+        services.AddTransient<IPluginEventBus, PluginEventBusEngine>();
         return services;
     }
 }

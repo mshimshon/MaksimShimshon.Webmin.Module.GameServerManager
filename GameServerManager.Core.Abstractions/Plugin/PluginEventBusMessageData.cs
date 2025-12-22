@@ -1,48 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace GameServerManager.Core.Abstractions.Event;
+namespace GameServerManager.Core.Abstractions.Plugin;
 
-public abstract class EventMessage : EventMessageNoData
+public class PluginEventBusMessageData
 {
+
     protected JsonObject? JsonObjectData { get; private set; }
     protected JsonValue? JsonValueData { get; private set; }
     protected JsonArray? JsonArrayData { get; private set; }
     protected object Data { get; }
     protected Type DataType { get; }
-    protected EventMessage(string eventType, object data) : base(eventType)
-    {
-        Data = data;
-        DataType = data.GetType();
-        ProcessDataToJson();
-    }
 
-    protected EventMessage(string baseEventId, string eventType, object data) : base(eventType, baseEventId)
+    public PluginEventBusMessageData(object data)
     {
         Data = data;
         DataType = data.GetType();
         ProcessDataToJson();
     }
-    public override object? GetData()
+    public object? GetData()
     {
-        if (JsonObjectData != default) return JsonArrayData; 
-        if (JsonValueData != default) return JsonArrayData;
+        if (JsonObjectData != default) return JsonObjectData;
+        if (JsonValueData != default) return JsonValueData;
         if (JsonArrayData != default) return JsonArrayData;
         return null;
     }
-    public override string GetEventId() => $"{EventBaseId}.{EventType}";
 
     protected void ProcessDataToJson()
     {
         bool isArray = IsAnyCollection(DataType);
         bool isPrimitive = IsPrimitiveLike(DataType);
-        if (isArray) 
+        if (isArray)
             JsonArrayData = JsonSerializer.SerializeToNode(Data)!.AsArray();
-        else if(isPrimitive)
+        else if (isPrimitive)
             JsonValueData = JsonSerializer.SerializeToNode(Data)!.AsValue();
         else
             JsonObjectData = JsonSerializer.SerializeToNode(Data)!.AsObject();
@@ -68,15 +60,14 @@ public abstract class EventMessage : EventMessageNoData
     {
         type = Nullable.GetUnderlyingType(type) ?? type;
 
-        if (type.IsPrimitive) return true;                 
-        if (type.IsEnum) return true;                      
-        if (type == typeof(string)) return true;           
-        if (type == typeof(decimal)) return true;          
-        if (type == typeof(DateTime)) return true;         
-        if (type == typeof(DateTimeOffset)) return true;   
-        if (type == typeof(Guid)) return true;             
+        if (type.IsPrimitive) return true;
+        if (type.IsEnum) return true;
+        if (type == typeof(string)) return true;
+        if (type == typeof(decimal)) return true;
+        if (type == typeof(DateTime)) return true;
+        if (type == typeof(DateTimeOffset)) return true;
+        if (type == typeof(Guid)) return true;
 
         return false;
     }
-
 }
