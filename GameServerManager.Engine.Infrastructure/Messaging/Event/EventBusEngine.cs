@@ -1,10 +1,8 @@
 ﻿
 using GameServerManager.Engine.Application.Messaging.Event;
-using GameServerManager.Engine.Domain.Messaging.Event;
-using GameServerManager.Engine.Presentation.Services.CircuitControl;
+using GameServerManager.Engine.Infrastructure.Circuit;
 using GameServerManager.Plugin.Core.Messaging.EventSystem;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace GameServerManager.Engine.Presentation.Services.Messaging;
 
@@ -13,11 +11,13 @@ internal class EventBusEngine : IEventBus
 
     private readonly IServiceProvider _serviceProvider;
     private readonly IEventBusRegistry _eventBusRegistry;
+    private readonly ICircuitControl _circuitControl;
 
-    public EventBusEngine(IServiceProvider serviceProvider, IEventBusRegistry eventBusRegistry)
+    public EventBusEngine(IServiceProvider serviceProvider, IEventBusRegistry eventBusRegistry, ICircuitControl circuitControl)
     {
         _serviceProvider = serviceProvider;
         _eventBusRegistry = eventBusRegistry;
+        _circuitControl = circuitControl;
     }
 
     private static Task ExecuteHandler(IEventBusMessage evt, IServiceProvider serviceProvider, Type handlerType)
@@ -37,7 +37,7 @@ internal class EventBusEngine : IEventBus
             handlerTasks.Add(ExecuteHandler(evt, _serviceProvider, item.HandlerType));
 
         if (hasCrossCircuitEvents)
-            foreach (var circuit in CircuitRegistry.GetActiveCircuits())
+            foreach (var circuit in _circuitControl.GetActiveCircuits())
                 foreach (var handlerType in handlers.Where(p => p.IsCrossCircuitType))
                     handlerTasks.Add(ExecuteHandler(evt, circuit.ServiceProvider!, handlerType.HandlerType));
 
@@ -47,5 +47,5 @@ internal class EventBusEngine : IEventBus
 
     public IReadOnlyCollection<string> GetAllEventIds() => _eventBusRegistry.GetAllAvailableIds();
 
-    public IReadOnlyCollection<Type> GetAllHandlersByEventId(string eventId) =>  _eventBusRegistry.GetRegistryFor(eventId).Select(p=>p.HandlerType).ToList().AsReadOnly();
+    public IReadOnlyCollection<Type> GetAllHandlersByEventId(string eventId) => _eventBusRegistry.GetRegistryFor(eventId).Select(p => p.HandlerType).ToList().AsReadOnly();
 }

@@ -1,6 +1,4 @@
-﻿using GameServerManager.Core.Abstractions.Plugin.Contracts;
-
-namespace GameServerManager.Plugin.Core;
+﻿namespace GameServerManager.Plugin.Core;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Sonar", "S2326")]
 public interface IPluginMetadata<TEntry>

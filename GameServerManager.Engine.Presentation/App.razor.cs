@@ -1,4 +1,4 @@
-﻿using GameServerManager.Engine.Presentation.Services.CircuitControl;
+﻿using GameServerManager.Engine.Presentation.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace GameServerManager.Engine.Presentation;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GameServerManager.Engine.Domain.Messaging.Event;
+﻿namespace GameServerManager.Engine.Domain.Messaging.Event;
 
 public sealed record EventTypeEntity
 {

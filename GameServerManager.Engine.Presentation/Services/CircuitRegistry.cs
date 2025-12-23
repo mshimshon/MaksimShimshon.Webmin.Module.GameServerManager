@@ -1,19 +1,15 @@
-﻿using Microsoft.AspNetCore.Components.Server.Circuits;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
+﻿using GameServerManager.Engine.Infrastructure.Circuit;
+using Microsoft.AspNetCore.Components.Server.Circuits;
+namespace GameServerManager.Engine.Presentation.Services;
 
-namespace GameServerManager.Engine.Presentation.Services.CircuitControl;
-
-public sealed class CircuitRegistry : CircuitHandler
+public sealed class CircuitRegistry : CircuitHandler, ICircuitControl
 {
-    private static List<CircuitIdentity> _circuits = new();
+    private static List<CircuitIdentityDto> _circuits = new();
     private static readonly object _lock = new();
-    private CircuitIdentity _currentCircuit = new();
+    private CircuitIdentityDto _currentCircuit = new();
 
 
-    internal static IReadOnlyCollection<CircuitIdentity> GetActiveCircuits()
+    public IReadOnlyCollection<CircuitIdentityDto> GetActiveCircuits()
     {
         lock (_lock)
         {
@@ -30,8 +26,8 @@ public sealed class CircuitRegistry : CircuitHandler
 
         lock (_lock)
         {
-            
-            if (!_circuits.Any(p=>p.Id == circuit.Id))
+
+            if (!_circuits.Any(p => p.Id == circuit.Id))
             {
                 _currentCircuit = _currentCircuit with { Id = circuit.Id };
                 _circuits.Add(_currentCircuit);
@@ -45,8 +41,8 @@ public sealed class CircuitRegistry : CircuitHandler
     {
         lock (_lock)
         {
-            if (_circuits.Any(p=>p.Id == circuit.Id))
-                    _circuits.Remove(_currentCircuit);
+            if (_circuits.Any(p => p.Id == circuit.Id))
+                _circuits.Remove(_currentCircuit);
         }
         return Task.CompletedTask;
     }
@@ -71,4 +67,4 @@ public sealed class CircuitRegistry : CircuitHandler
 }
 
 
-    
+

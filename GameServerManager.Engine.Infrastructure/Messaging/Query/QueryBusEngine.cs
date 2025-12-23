@@ -1,0 +1,58 @@
+﻿using GameServerManager.Engine.Application.Messaging.Query;
+using GameServerManager.Plugin.Core.Messaging.QuerySystem;
+using GameServerManager.Plugin.Core.Messaging.QuerySystem.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace GameServerManager.Engine.Infrastructure.Messaging.Query;
+
+internal class QueryBusEngine : IQueryBus
+{
+
+    private readonly IServiceProvider _serviceProvider;
+    private readonly IQueryBusRegistry _queryBusRegistry;
+
+    public QueryBusEngine(IServiceProvider serviceProvider, IQueryBusRegistry queryBusRegistry)
+    {
+        _serviceProvider = serviceProvider;
+        _queryBusRegistry = queryBusRegistry;
+    }
+
+    private static Task<QueryBusMessageResponse> ExecuteHandler(IQueryBusMessage qry, IServiceProvider serviceProvider, Type handlerType)
+    {
+        var handler = serviceProvider.GetRequiredService(handlerType) as IQueryBusHandler;
+        return handler!.HandleAsync(qry);
+    }
+
+    public IReadOnlyCollection<string> GetAllQueryIds() => _queryBusRegistry.GetAllAvailableIds();
+    public async Task<QueryBusMessageResponse> QueryAsync(IQueryBusMessage qry)
+    {
+        string id = qry.GetId();
+        var registry = _queryBusRegistry;
+        try
+        {
+            var handler = registry.GetRegistryFor(id);
+            try
+            {
+                var result = await ExecuteHandler(qry, _serviceProvider, handler.HandlerType);
+                return result with { Origin = handler.HandlerType.FullName! };
+            }
+            catch (QueryBusMessageException ex)
+            {
+                // TODO: OPEN TELEMETRY? OR CAP EVENT
+                return new() { Error = ex, Origin = handler.HandlerType.FullName! };
+            }
+            catch (Exception ex)
+            {
+                return new() { Error = new("INTERNAL", ex.Message), Origin = handler.HandlerType.FullName! };
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            return new() { Error = new("INTERNAL", ex.Message), Origin = id };
+        }
+
+
+    }
+}

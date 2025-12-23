@@ -14,12 +14,21 @@
 	<PackageReference Include="DotNetCore.CAP.NATS" Version="10.0.0" />
 	<PackageReference Include="DotNetCore.CAP.OpenTelemetry" Version="10.0.0" />
 	<PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0" />
+	<PackageReference Include="MudBlazor" Version="8.15.0" />
 	<PackageReference Include="StatePulse.Net" Version="2.0.1" />
+	<PackageReference Include="SwizzleV" Version="1.0.0" />
   </ItemGroup>
 
 <ItemGroup>
   <ProjectReference Include="..\GameServerManager.Engine.Application\GameServerManager.Engine.Application.csproj" />
+  <ProjectReference Include="..\GameServerManager.Engine.Infrastructure\GameServerManager.Engine.Infrastructure.csproj" />
   <ProjectReference Include="..\GameServerManager.Plugin.Core\GameServerManager.Plugin.Core.csproj" />
+</ItemGroup>
+
+<ItemGroup>
+  <Folder Include="Layout\Pulses\Effects\" />
+  <Folder Include="Layout\Pulses\Reducers\" />
+  <Folder Include="Layout\Pulses\States\" />
 </ItemGroup>
 
 </Project>

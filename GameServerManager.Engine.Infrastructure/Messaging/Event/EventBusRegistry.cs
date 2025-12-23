@@ -1,14 +1,8 @@
 ﻿using GameServerManager.Engine.Application.Messaging.Event;
 using GameServerManager.Engine.Application.Messaging.Event.Exceptions;
 using GameServerManager.Engine.Domain.Messaging.Event;
-using GameServerManager.Plugin.Core.Messaging.EventSystem.Exceptions;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace GameServerManager.Engine.Infrastructure.Messaging;
+namespace GameServerManager.Engine.Infrastructure.Messaging.Event;
 
 internal class EventBusRegistry : IEventBusRegistry
 {
@@ -27,8 +21,8 @@ internal class EventBusRegistry : IEventBusRegistry
     {
         id = id.ToLower();
         lock (_lock)
-        { 
-            return _internalRegistryEventTypes[id]?.ToList()?.AsReadOnly() ?? throw new NoEventBusIdEntryException(id);
+        {
+            return _internalRegistryEventTypes[id]?.ToList()?.AsReadOnly() ?? throw new EventBusNotFoundException(id);
         }
     }
 
