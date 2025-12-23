@@ -5,13 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GameServerManager.Engine.Infrastructure.Messaging.Query;
 
-internal class QueryBusEngine : IQueryBus
+internal class QueryBus : IQueryBus
 {
 
     private readonly IServiceProvider _serviceProvider;
     private readonly IQueryBusRegistry _queryBusRegistry;
 
-    public QueryBusEngine(IServiceProvider serviceProvider, IQueryBusRegistry queryBusRegistry)
+    public QueryBus(IServiceProvider serviceProvider, IQueryBusRegistry queryBusRegistry)
     {
         _serviceProvider = serviceProvider;
         _queryBusRegistry = queryBusRegistry;
@@ -33,17 +33,17 @@ internal class QueryBusEngine : IQueryBus
             var handler = registry.GetRegistryFor(id);
             try
             {
-                var result = await ExecuteHandler(qry, _serviceProvider, handler.HandlerType);
-                return result with { Origin = handler.HandlerType.FullName! };
+                var result = await ExecuteHandler(qry, _serviceProvider, handler);
+                return result with { Origin = handler.FullName! };
             }
             catch (QueryBusMessageException ex)
             {
                 // TODO: OPEN TELEMETRY? OR CAP EVENT
-                return new() { Error = ex, Origin = handler.HandlerType.FullName! };
+                return new() { Error = ex, Origin = handler.FullName! };
             }
             catch (Exception ex)
             {
-                return new() { Error = new("INTERNAL", ex.Message), Origin = handler.HandlerType.FullName! };
+                return new() { Error = new("INTERNAL", ex.Message), Origin = handler.FullName! };
             }
 
 

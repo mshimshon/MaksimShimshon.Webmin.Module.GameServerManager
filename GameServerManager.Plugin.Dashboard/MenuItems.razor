@@ -1,0 +1,13 @@
+<MudNavMenu>
+    <MudNavLink Icon=@Icons.Material.Filled.MonitorHeart OnClick=GetPluginMenuItems Match="NavLinkMatch.All">Duplicate Menu</MudNavLink>
+    <MudNavLink Icon=@Icons.Material.Filled.OpenInNew OnClick=GetBoolTest Match="NavLinkMatch.All">Test Query</MudNavLink>
+    <MudNavLink Icon=@Icons.Material.Filled.OpenInNew OnClick=SendEventCrossCircuit Match="NavLinkMatch.All">Test EventBus</MudNavLink>
+</MudNavMenu>
+@if (IsVisible)
+{
+    <MudAlert>This works!</MudAlert>
+}
+@foreach (var item in Items)
+{
+    @item
+}

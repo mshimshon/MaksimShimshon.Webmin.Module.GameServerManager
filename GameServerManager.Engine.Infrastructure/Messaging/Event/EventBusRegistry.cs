@@ -4,7 +4,7 @@ using GameServerManager.Engine.Domain.Messaging.Event;
 
 namespace GameServerManager.Engine.Infrastructure.Messaging.Event;
 
-internal class EventBusRegistry : IEventBusRegistry
+public class EventBusRegistry : IEventBusRegistry
 {
     private readonly Dictionary<string, List<EventTypeEntity>> _internalRegistryEventTypes = new();
     private readonly object _lock = new();
@@ -38,7 +38,7 @@ internal class EventBusRegistry : IEventBusRegistry
                 _internalRegistryEventTypes[id] = new List<EventTypeEntity>();
             }
             if (!list.Contains(handlerEntity))
-                list.Add(handlerEntity);
+                _internalRegistryEventTypes[id].Add(handlerEntity);
         }
     }
 
@@ -50,7 +50,7 @@ internal class EventBusRegistry : IEventBusRegistry
         {
             if (!_internalRegistryEventTypes.TryGetValue(id, out var list))
                 return;
-            list.Remove(handlerEntity);
+            _internalRegistryEventTypes[id].Remove(handlerEntity);
         }
     }
 }

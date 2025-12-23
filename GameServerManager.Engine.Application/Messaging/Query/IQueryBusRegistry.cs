@@ -1,11 +1,9 @@
-﻿using GameServerManager.Engine.Domain.Messaging.Event;
-
-namespace GameServerManager.Engine.Application.Messaging.Query;
+﻿namespace GameServerManager.Engine.Application.Messaging.Query;
 
 public interface IQueryBusRegistry
 {
-    EventTypeEntity GetRegistryFor(string id);
+    Type GetRegistryFor(string id);
     IReadOnlyList<string> GetAllAvailableIds();
-    void Register(string id, EventTypeEntity handlerEntity);
+    void Register(string id, Type handlerType);
     void UnRegister(string id);
 }

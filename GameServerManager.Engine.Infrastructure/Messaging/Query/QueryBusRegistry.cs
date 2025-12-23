@@ -1,12 +1,11 @@
 ﻿using GameServerManager.Engine.Application.Messaging.Event.Exceptions;
 using GameServerManager.Engine.Application.Messaging.Query;
-using GameServerManager.Engine.Domain.Messaging.Event;
 
 namespace GameServerManager.Engine.Infrastructure.Messaging.Query;
 
 internal class QueryBusRegistry : IQueryBusRegistry
 {
-    private readonly Dictionary<string, EventTypeEntity> _internalRegistryEventTypes = new();
+    private readonly Dictionary<string, Type> _internalRegistryEventTypes = new();
     private readonly object _lock = new();
 
     public IReadOnlyList<string> GetAllAvailableIds()
@@ -17,7 +16,7 @@ internal class QueryBusRegistry : IQueryBusRegistry
         }
     }
 
-    public EventTypeEntity GetRegistryFor(string id)
+    public Type GetRegistryFor(string id)
     {
         id = id.ToLower();
         lock (_lock)
@@ -26,7 +25,7 @@ internal class QueryBusRegistry : IQueryBusRegistry
         }
     }
 
-    public void Register(string id, EventTypeEntity handlerEntity)
+    public void Register(string id, Type handlerType)
     {
         id = id.ToLower();
 
@@ -34,7 +33,7 @@ internal class QueryBusRegistry : IQueryBusRegistry
         {
             if (_internalRegistryEventTypes.ContainsKey(id))
                 throw new QueryBusMultipleHandlerException(id);
-            _internalRegistryEventTypes[id] = handlerEntity;
+            _internalRegistryEventTypes[id] = handlerType;
         }
     }
 

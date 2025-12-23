@@ -1,4 +1,9 @@
 using GameServerManager.Engine.Presentation;
+using GameServerManager.Engine.Presentation.Services.Messaging.EngineBus;
+using GameServerManager.Engine.Presentation.Services.Messaging.EventBus;
+using GameServerManager.Engine.Presentation.Services.Messaging.QueryBus;
+using GameServerManager.Plugin.Core;
+using GameServerManager.Plugin.Dashboard;
 using MudBlazor;
 using MudBlazor.Services;
 using StatePulse.Net;
@@ -40,18 +45,20 @@ builder.Services.AddStatePulseServices(o =>
 
 
 builder.Services.AddSwizzleV();
+
+builder.Services.ScanEngineBusHandlers([typeof(Program).Assembly, typeof(PluginEntry).Assembly]);
+builder.Services.ScanEventBusHandlers([typeof(Program).Assembly, typeof(PluginEntry).Assembly]);
+builder.Services.ScanQueryBusHandlers([typeof(Program).Assembly, typeof(PluginEntry).Assembly]);
 // TODO: USE PLUGIN DISCOVERY
 
-//Plugin lifecyclePlugin = new Plugin();
-//lifecyclePlugin.Initialize();
-//lifecyclePlugin.ConfigureWebHost(builder.Host);
-//lifecyclePlugin.RegisterServices(builder.Services);
+IPlugin<PluginEntry> pluginDashboard = new PluginEntry();
+pluginDashboard.Enable();
+pluginDashboard.Initialize();
+pluginDashboard.RegisterServices(builder.Services);
 
-//builder.Services.AddScoped<Plugin>();
-//builder.Services.AddScoped<IPlugin<Plugin>>();
-//builder.Services.AddScoped<IPluginMetadata<Plugin>>();
+builder.Services.AddScoped<PluginEntry>();
+builder.Services.AddScoped<IPlugin<PluginEntry>, PluginEntry>();
 
-//builder.Services.AddLifecyclePresentation();
 
 //builder.Services.AddCap(p =>
 //{
@@ -63,6 +70,10 @@ builder.Services.AddSwizzleV();
 
 
 WebApplication? app = builder.Build();
+
+app.RegisterScannedEngineBusHandlers();
+app.RegisterScannedEventBusHandlers();
+app.RegisterScannedQueryBusHandlers();
 
 // TODO: USE PLUGIN DISCOVERY
 
@@ -88,4 +99,4 @@ app.MapRazorComponents<App>()
 
 //app.StartTicker(new TimeOnly(0, 0, 1));
 
-app.Run();
+await app.RunAsync();

@@ -1,4 +1,4 @@
-﻿namespace GameServerManager.Plugin.Core.Messaging.Engine.Hooks;
+﻿namespace GameServerManager.Plugin.Core.Messaging.EngineBus;
 
 public interface IEngineBusHandler
 {

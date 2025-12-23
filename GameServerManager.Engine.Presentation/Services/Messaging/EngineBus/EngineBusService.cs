@@ -1,6 +1,6 @@
-﻿using GameServerManager.Plugin.Core.Messaging.Engine.Hooks;
+﻿using GameServerManager.Plugin.Core.Messaging.EngineBus;
 
-namespace GameServerManager.Engine.Presentation.Services;
+namespace GameServerManager.Engine.Presentation.Services.Messaging.EngineBus;
 
 internal class EngineBusService : IEngineBus
 {

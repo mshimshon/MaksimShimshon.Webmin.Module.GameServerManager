@@ -15,10 +15,10 @@ public static class RegisterServicesExt
     public static IServiceCollection AddEngineInfrastructure(this IServiceCollection services)
     {
         services.AddEngineApplication();
-        services.AddScoped<IEventBus, EventBusEngine>();
+        services.AddScoped<IEventBus, EventBus>();
         services.AddSingleton<IEventBusRegistry, EventBusRegistry>();
 
-        services.AddScoped<IQueryBus, QueryBusEngine>();
+        services.AddScoped<IQueryBus, QueryBus>();
         services.AddSingleton<IQueryBusRegistry, QueryBusRegistry>();
 
         return services;

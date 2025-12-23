@@ -6,14 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GameServerManager.Engine.Presentation.Services.Messaging;
 
-internal class EventBusEngine : IEventBus
+internal class EventBus : IEventBus
 {
 
     private readonly IServiceProvider _serviceProvider;
     private readonly IEventBusRegistry _eventBusRegistry;
     private readonly ICircuitControl _circuitControl;
 
-    public EventBusEngine(IServiceProvider serviceProvider, IEventBusRegistry eventBusRegistry, ICircuitControl circuitControl)
+    public EventBus(IServiceProvider serviceProvider, IEventBusRegistry eventBusRegistry, ICircuitControl circuitControl)
     {
         _serviceProvider = serviceProvider;
         _eventBusRegistry = eventBusRegistry;
@@ -39,7 +39,7 @@ internal class EventBusEngine : IEventBus
         if (hasCrossCircuitEvents)
             foreach (var circuit in _circuitControl.GetActiveCircuits())
                 foreach (var handlerType in handlers.Where(p => p.IsCrossCircuitType))
-                    handlerTasks.Add(ExecuteHandler(evt, circuit.ServiceProvider!, handlerType.HandlerType));
+                    handlerTasks.Add(ExecuteHandler(evt, circuit.ServiceProvider(), handlerType.HandlerType));
 
         return Task.WhenAll(handlerTasks);
     }

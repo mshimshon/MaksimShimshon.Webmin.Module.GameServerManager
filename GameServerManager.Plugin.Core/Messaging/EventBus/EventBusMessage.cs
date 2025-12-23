@@ -9,7 +9,7 @@ public sealed class EventBusMessage : IEventBusMessage
     public string EventBaseId { get; }
     public string EventType { get; }
     public Guid Id { get; }
-    public EventBusMessage(string eventBaseId, string eventType, object? data)
+    public EventBusMessage(string eventBaseId, string eventType, object? data = default)
     {
         Id = Guid.NewGuid();
 
@@ -21,6 +21,6 @@ public sealed class EventBusMessage : IEventBusMessage
 
     public string GetId() => $"{EventBaseId}.{EventType}";
 
-    public object? GetData() => Data?.GetData();
+    public BusMessageData? GetData() => Data;
     public Guid GetMessageId() => Id;
 }

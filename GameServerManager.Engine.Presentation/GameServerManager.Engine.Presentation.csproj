@@ -23,6 +23,7 @@
   <ProjectReference Include="..\GameServerManager.Engine.Application\GameServerManager.Engine.Application.csproj" />
   <ProjectReference Include="..\GameServerManager.Engine.Infrastructure\GameServerManager.Engine.Infrastructure.csproj" />
   <ProjectReference Include="..\GameServerManager.Plugin.Core\GameServerManager.Plugin.Core.csproj" />
+  <ProjectReference Include="..\GameServerManager.Plugin.Dashboard\GameServerManager.Plugin.Dashboard.csproj" />
 </ItemGroup>
 
 <ItemGroup>

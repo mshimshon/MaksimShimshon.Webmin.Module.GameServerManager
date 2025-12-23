@@ -1,7 +1,7 @@
 ﻿using GameServerManager.Plugin.Core.Messaging.Common;
 using Microsoft.AspNetCore.Components;
 
-namespace GameServerManager.Plugin.Core.Messaging.Engine.Hooks;
+namespace GameServerManager.Plugin.Core.Messaging.EngineBus;
 
 public sealed record EngineBusResponse
 {

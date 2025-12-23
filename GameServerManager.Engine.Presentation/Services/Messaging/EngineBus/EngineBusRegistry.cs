@@ -1,6 +1,6 @@
 ﻿using GameServerManager.Engine.Application.Messaging.Event.Exceptions;
 
-namespace GameServerManager.Engine.Presentation.Services;
+namespace GameServerManager.Engine.Presentation.Services.Messaging.EngineBus;
 
 internal class EngineBusRegistry
 {
@@ -36,7 +36,7 @@ internal class EngineBusRegistry
                 _internalRegistryEventTypes[id] = new List<Type>();
             }
             if (!list.Contains(handlerEntity))
-                list.Add(handlerEntity);
+                _internalRegistryEventTypes[id].Add(handlerEntity);
         }
     }
 
@@ -48,7 +48,7 @@ internal class EngineBusRegistry
         {
             if (!_internalRegistryEventTypes.TryGetValue(id, out var list))
                 return;
-            list.Remove(handlerEntity);
+            _internalRegistryEventTypes[id].Remove(handlerEntity);
         }
     }
 }

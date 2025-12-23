@@ -1,7 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GameServerManager.Plugin.Core.Messaging.Common;
 
@@ -13,7 +11,7 @@ public class BusMessageData
     protected JsonArray? JsonArrayData { get; private set; }
     protected object Data { get; }
     protected Type DataType { get; }
-
+    protected BusMessageDataType ValueType { get; private set; }
     public BusMessageData(object data)
     {
         Data = data;
@@ -27,17 +25,41 @@ public class BusMessageData
         if (JsonArrayData != default) return JsonArrayData;
         return null;
     }
-
+    public BusMessageDataType GetDataType() => ValueType;
+    public TData? GetDataAs<TData>()
+    {
+        if (GetData() == default)
+            return default;
+        if (GetDataType() == BusMessageDataType.Array)
+            return JsonSerializer.Deserialize<TData>(JsonArrayData) ?? default;
+        if (GetDataType() == BusMessageDataType.Value)
+            return JsonSerializer.Deserialize<TData>(JsonValueData) ?? default;
+        if (GetDataType() == BusMessageDataType.Object)
+            return JsonSerializer.Deserialize<TData>(JsonObjectData) ?? default;
+        return default;
+    }
     protected void ProcessDataToJson()
     {
         bool isArray = IsAnyCollection(DataType);
         bool isPrimitive = IsPrimitiveLike(DataType);
         if (isArray)
+        {
             JsonArrayData = JsonSerializer.SerializeToNode(Data)!.AsArray();
+            ValueType = BusMessageDataType.Array;
+
+        }
         else if (isPrimitive)
+        {
             JsonValueData = JsonSerializer.SerializeToNode(Data)!.AsValue();
+            ValueType = BusMessageDataType.Value;
+
+        }
         else
+        {
             JsonObjectData = JsonSerializer.SerializeToNode(Data)!.AsObject();
+            ValueType = BusMessageDataType.Object;
+        }
+
     }
     private static bool IsAnyCollection(Type type)
     {

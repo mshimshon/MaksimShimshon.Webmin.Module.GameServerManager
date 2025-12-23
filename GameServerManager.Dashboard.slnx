@@ -12,5 +12,4 @@
   <Project Path="GameServerManager.Features.Lifecycle/GameServerManager.Features.Lifecycle.csproj" Id="48460d9a-f45f-4703-81a5-455fda01180a" />
   <Project Path="GameServerManager.Plugin.Core/GameServerManager.Plugin.Core.csproj" Id="44d0a9dd-8f44-4352-b3b2-a7a4c8af4ca9" />
   <Project Path="GameServerManager.Plugin.Dashboard/GameServerManager.Plugin.Dashboard.csproj" Id="8025aa8a-da76-4af6-98e9-2b64ca65cf6c" />
-  <Project Path="GameServerManager.Skeleton/GameServerManager.Skeleton.csproj" Id="4394a226-c0dd-4568-9633-960a2c976985" />
 </Solution>

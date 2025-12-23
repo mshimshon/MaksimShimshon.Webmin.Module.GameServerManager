@@ -2,7 +2,7 @@
 
 public sealed record CircuitIdentityDto
 {
-    public string Id { get; init; } = default!;
-    public IServiceProvider? ServiceProvider { get; set; }
-    public bool IsLinkUp { get; set; }
+    public Guid Id { get; set; }
+    public object App { get; set; }
+    public Func<IServiceProvider> ServiceProvider { get; set; } = default!;
 }

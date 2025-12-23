@@ -1,68 +1,36 @@
 ﻿using GameServerManager.Engine.Infrastructure.Circuit;
-using Microsoft.AspNetCore.Components.Server.Circuits;
+using GameServerManager.Engine.Presentation.Layout;
 namespace GameServerManager.Engine.Presentation.Services;
 
-public sealed class CircuitRegistry : CircuitHandler, ICircuitControl
+public sealed class CircuitRegistry : ICircuitControl
 {
     private static List<CircuitIdentityDto> _circuits = new();
     private static readonly object _lock = new();
-    private CircuitIdentityDto _currentCircuit = new();
+    private CircuitIdentityDto _currentCircuit = default!;
 
 
     public IReadOnlyCollection<CircuitIdentityDto> GetActiveCircuits()
     {
         lock (_lock)
         {
-            return _circuits.Where(p => p.IsLinkUp && p.ServiceProvider != default).ToList().AsReadOnly();
+            return _circuits.Where(p => !ReferenceEquals(p.App, null)).ToList().AsReadOnly();
         }
     }
-    internal void SelfCircuitRegistration(IServiceProvider serviceProvider)
-    {
-        _currentCircuit.ServiceProvider = serviceProvider;
-    }
-
-    public override Task OnCircuitOpenedAsync(Circuit circuit, CancellationToken token)
-    {
-
-        lock (_lock)
-        {
-
-            if (!_circuits.Any(p => p.Id == circuit.Id))
-            {
-                _currentCircuit = _currentCircuit with { Id = circuit.Id };
-                _circuits.Add(_currentCircuit);
-
-            }
-        }
-        return Task.CompletedTask;
-    }
-
-    public override Task OnCircuitClosedAsync(Circuit circuit, CancellationToken token)
+    internal void SelfCircuitRegistration(Guid id, MainLayout app)
     {
         lock (_lock)
         {
-            if (_circuits.Any(p => p.Id == circuit.Id))
+            _currentCircuit = new() { Id = id, App = app, ServiceProvider = () => app.ServiceProvider };
+            _circuits.Add(_currentCircuit);
+        }
+    }
+    internal void SelfRemoval(Guid id, MainLayout app)
+    {
+        lock (_lock)
+        {
+            if (_currentCircuit != default && _currentCircuit.App == app)
                 _circuits.Remove(_currentCircuit);
         }
-        return Task.CompletedTask;
-    }
-
-    public override Task OnConnectionUpAsync(Circuit circuit, CancellationToken cancellationToken)
-    {
-        lock (_lock)
-        {
-            _currentCircuit.IsLinkUp = true;
-        }
-        return Task.CompletedTask;
-    }
-
-    public override Task OnConnectionDownAsync(Circuit circuit, CancellationToken cancellationToken)
-    {
-        lock (_lock)
-        {
-            _currentCircuit.IsLinkUp = false;
-        }
-        return Task.CompletedTask;
     }
 }
 
