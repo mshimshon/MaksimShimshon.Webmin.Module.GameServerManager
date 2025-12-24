@@ -1,4 +1,4 @@
-﻿namespace GameServerManager.Engine.Domain.Messaging.Event;
+﻿namespace GameServerManager.Engine.Domain.Messaging.Entities;
 
 public sealed record EventTypeEntity
 {

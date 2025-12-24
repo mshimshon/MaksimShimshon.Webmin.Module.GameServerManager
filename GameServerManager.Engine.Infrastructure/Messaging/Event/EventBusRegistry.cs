@@ -1,6 +1,6 @@
 ﻿using GameServerManager.Engine.Application.Messaging.Event;
 using GameServerManager.Engine.Application.Messaging.Event.Exceptions;
-using GameServerManager.Engine.Domain.Messaging.Event;
+using GameServerManager.Engine.Domain.Messaging.Entities;
 
 namespace GameServerManager.Engine.Infrastructure.Messaging.Event;
 

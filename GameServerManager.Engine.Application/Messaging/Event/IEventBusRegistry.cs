@@ -1,4 +1,4 @@
-﻿using GameServerManager.Engine.Domain.Messaging.Event;
+﻿using GameServerManager.Engine.Domain.Messaging.Entities;
 
 namespace GameServerManager.Engine.Application.Messaging.Event;
 

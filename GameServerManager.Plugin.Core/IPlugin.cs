@@ -3,8 +3,7 @@
 namespace GameServerManager.Plugin.Core;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Sonar", "S2326")]
-public interface IPlugin<TEntry>
-    where TEntry : class
+public interface IPlugin
 {
     void Initialize();
     void RegisterServices(IServiceCollection services);
