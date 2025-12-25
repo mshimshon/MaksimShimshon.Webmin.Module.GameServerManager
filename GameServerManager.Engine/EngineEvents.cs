@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServerManager.Engine;
+namespace LunaticPanel.Engine;
 
 internal enum EngineEvents
 {

@@ -1,5 +1,5 @@
 ﻿using StatePulse.Net;
 
-namespace GameServerManager.Engine.Ticker.Pulses.Actions;
+namespace LunaticPanel.Engine.Ticker.Pulses.Actions;
 
 public class TickerPerformedAction : ISafeAction;

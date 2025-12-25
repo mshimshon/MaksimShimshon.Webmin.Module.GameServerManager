@@ -1,12 +1,12 @@
 ﻿using GameServerManager.Core.Abstractions.Plugin;
-using GameServerManager.Engine.Ticker.Pulses.Actions;
-using GameServerManager.Engine.Ticker.Pulses.Stores;
+using LunaticPanel.Engine.Ticker.Pulses.Actions;
+using LunaticPanel.Engine.Ticker.Pulses.Stores;
 using StatePulse.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServerManager.Engine.Ticker.Pulses.Effects;
+namespace LunaticPanel.Engine.Ticker.Pulses.Effects;
 
 internal class PluginTickerEffect : IEffect<TickerPerformAction>
 {

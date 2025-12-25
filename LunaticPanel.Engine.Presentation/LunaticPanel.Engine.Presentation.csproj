@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	  <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+<ItemGroup>
+	<PackageReference Include="DotNetCore.CAP" />
+	<PackageReference Include="DotNetCore.CAP.Dashboard" />
+	<PackageReference Include="DotNetCore.CAP.InMemoryStorage" />
+	<PackageReference Include="DotNetCore.CAP.OpenTelemetry" />
+	<PackageReference Include="McMaster.NETCore.Plugins" />
+	<PackageReference Include="MudBlazor" />
+	<PackageReference Include="StatePulse.Net" />
+	<PackageReference Include="SwizzleV" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+</ItemGroup>
+
+<ItemGroup>
+  <Folder Include="Layout\Pulses\Effects\" />
+  <Folder Include="Layout\Pulses\Reducers\" />
+  <Folder Include="Layout\Pulses\States\" />
+</ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\LunaticPanel.Engine.Domain\LunaticPanel.Engine.Domain.csproj" />
+  <ProjectReference Include="..\LunaticPanel.Engine.Infrastructure\LunaticPanel.Engine.Infrastructure.csproj" />
+</ItemGroup>
+
+</Project>

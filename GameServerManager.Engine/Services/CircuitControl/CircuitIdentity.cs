@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServerManager.Engine.Services.CircuitControl;
+namespace LunaticPanel.Engine.Services.CircuitControl;
 
 internal sealed record CircuitIdentity
 {

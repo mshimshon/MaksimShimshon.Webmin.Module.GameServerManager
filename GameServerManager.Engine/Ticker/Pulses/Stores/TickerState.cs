@@ -1,6 +1,6 @@
 ﻿using StatePulse.Net;
 
-namespace GameServerManager.Engine.Ticker.Pulses.Stores;
+namespace LunaticPanel.Engine.Ticker.Pulses.Stores;
 
 public record TickerState : IStateFeatureSingleton
 {

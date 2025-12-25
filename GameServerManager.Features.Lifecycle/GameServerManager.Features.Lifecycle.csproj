@@ -19,9 +19,4 @@
     <PackageReference Include="StatePulse.Net" Version="2.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\GameServerManager.Core.Abstractions\GameServerManager.Core.Abstractions.csproj" />
-    <ProjectReference Include="..\GameServerManager.Core\GameServerManager.Core.csproj" />
-  </ItemGroup>
-
 </Project>

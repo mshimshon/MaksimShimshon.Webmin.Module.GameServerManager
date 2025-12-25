@@ -1,5 +1,5 @@
-﻿using GameServerManager.Engine.Ticker.Pulses.Actions;
-using GameServerManager.Engine.Ticker.Pulses.Stores;
+﻿using LunaticPanel.Engine.Ticker.Pulses.Actions;
+using LunaticPanel.Engine.Ticker.Pulses.Stores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Text;
 using static System.Collections.Specialized.BitVector32;
 
-namespace GameServerManager.Engine.Services;
+namespace LunaticPanel.Engine.Services;
 
 public static class TickerExt
 {

@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GameServerManager.Plugin.Core\GameServerManager.Plugin.Core.csproj" />
+    <ProjectReference Include="..\GameServerManager.Plugin.Core\LunaticPanel.Core.csproj" />
   </ItemGroup>
 
 </Project>

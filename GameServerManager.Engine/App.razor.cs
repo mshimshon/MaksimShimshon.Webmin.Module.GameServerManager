@@ -1,4 +1,4 @@
-﻿using GameServerManager.Engine.Services.CircuitControl;
+﻿using LunaticPanel.Engine.Services.CircuitControl;
 using Microsoft.AspNetCore.Components;
 using StatePulse.Net;
 

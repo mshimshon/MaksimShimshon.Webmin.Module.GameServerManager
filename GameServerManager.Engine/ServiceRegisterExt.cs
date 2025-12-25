@@ -1,12 +1,12 @@
 ﻿using GameServerManager.Core;
-using GameServerManager.Engine.Services.CircuitControl;
+using LunaticPanel.Engine.Services.CircuitControl;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServerManager.Engine;
+namespace LunaticPanel.Engine;
 
 public static class ServiceRegisterExt
 {

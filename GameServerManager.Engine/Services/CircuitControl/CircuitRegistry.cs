@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameServerManager.Engine.Services.CircuitControl;
+namespace LunaticPanel.Engine.Services.CircuitControl;
 
 public sealed class CircuitRegistry : CircuitHandler
 {
